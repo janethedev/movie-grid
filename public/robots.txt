@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://gamegrid.shatranj.space/sitemap.xml
+Host: gamegrid.shatranj.space
+

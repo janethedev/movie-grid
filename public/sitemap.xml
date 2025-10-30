@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Only indexable pages; root (/) is a redirect and omitted -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/zh-CN</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <url>
+    <loc>https://gamegrid.shatranj.space/zh-TW</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <url>
+    <loc>https://gamegrid.shatranj.space/en</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- Repeat the same block style for ja, ko, fr, de, es, pt, it, ru, nl, pl, tr -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/ja</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- ko -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/ko</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- fr -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/fr</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- de -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/de</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- es -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/es</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- pt -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/pt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- it -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/it</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- ru -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/ru</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- nl -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/nl</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- pl -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/pl</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+  <!-- tr -->
+  <url>
+    <loc>https://gamegrid.shatranj.space/tr</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://gamegrid.shatranj.space/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://gamegrid.shatranj.space/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gamegrid.shatranj.space/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gamegrid.shatranj.space/ja"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://gamegrid.shatranj.space/ko"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gamegrid.shatranj.space/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gamegrid.shatranj.space/de"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gamegrid.shatranj.space/es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gamegrid.shatranj.space/pt"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://gamegrid.shatranj.space/it"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gamegrid.shatranj.space/ru"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://gamegrid.shatranj.space/nl"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://gamegrid.shatranj.space/pl"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://gamegrid.shatranj.space/tr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gamegrid.shatranj.space/zh-CN"/>
+  </url>
+</urlset>
