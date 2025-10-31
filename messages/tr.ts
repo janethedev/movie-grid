@@ -34,7 +34,7 @@ const tr = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'İşe yaradıysa yıldız verin →',
     powered_by: 'SteamGridDB & Bangumi ile',
-    official_link: 'Resmi bağlantı: gamegrid.shatranj.space',
+    official_link: 'Resmi bağlantı: moviesgrid.vercel.app',
   },
   search: {
     title: 'Oyun ara',

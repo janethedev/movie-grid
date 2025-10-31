@@ -63,3 +63,31 @@ export interface DBConfig {
   storeName: string;
   version: number;
 }
+
+/**
+ * 圆角半径配置
+ */
+export interface RoundRectRadii {
+  tl: number;
+  tr: number;
+  br: number;
+  bl: number;
+}
+
+/**
+ * 扩展 CanvasRenderingContext2D 以支持自定义 roundRect 方法
+ */
+declare global {
+  interface CanvasRenderingContext2D {
+    roundRect(
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      radius: number | Partial<RoundRectRadii>
+    ): this;
+  }
+}
+
+// 确保此文件被视为模块
+export {}

@@ -47,7 +47,7 @@ const zhTW = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '如果覺得有幫助請點 →',
     powered_by: 'Powered by SteamGridDB & Bangumi',
-    official_link: '唯一指定連結：gamegrid.shatranj.space',
+    official_link: '唯一指定連結：moviesgrid.vercel.app',
   },
   search: {
     title: '搜尋遊戲',

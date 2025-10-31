@@ -45,7 +45,7 @@ const ko = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '도움이 되었다면 스타 부탁드립니다 →',
     powered_by: 'Powered by SteamGridDB & Bangumi',
-    official_link: '공식 링크: gamegrid.shatranj.space',
+    official_link: '공식 링크: moviesgrid.vercel.app',
   },
   search: {
     title: '게임 검색',

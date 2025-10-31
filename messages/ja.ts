@@ -45,7 +45,7 @@ const ja = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '役に立ったらスターをお願いします →',
     powered_by: 'Powered by SteamGridDB & Bangumi',
-    official_link: '公式リンク: gamegrid.shatranj.space',
+    official_link: '公式リンク: moviesgrid.vercel.app',
   },
   search: {
     title: 'ゲーム検索',

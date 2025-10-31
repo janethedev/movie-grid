@@ -34,7 +34,7 @@ const pt = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'Achou útil? Dê uma estrela →',
     powered_by: 'Com SteamGridDB & Bangumi',
-    official_link: 'Link oficial: gamegrid.shatranj.space',
+    official_link: 'Link oficial: moviesgrid.vercel.app',
   },
   search: {
     title: 'Buscar jogo',

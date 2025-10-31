@@ -56,7 +56,7 @@ export default async function Image({
             color: '#1f2937',
           }}
         >
-          <span>gamegrid.shatranj.space</span>
+          <span>moviesgrid.vercel.app</span>
           <span style={{ opacity: 0.75 }}>{locale}</span>
         </div>
       </div>

@@ -34,7 +34,7 @@ const ru = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'Полезно? Поставьте звезду →',
     powered_by: 'При поддержке SteamGridDB и Bangumi',
-    official_link: 'Официальная ссылка: gamegrid.shatranj.space',
+    official_link: 'Официальная ссылка: moviesgrid.vercel.app',
   },
   search: {
     title: 'Поиск игры',

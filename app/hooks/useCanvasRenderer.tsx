@@ -198,7 +198,7 @@ export function useCanvasRenderer({
       ctx.font = "14px sans-serif"
       ctx.textAlign = "right"
       ctx.fillText(
-        "gamegrid.shatranj.space",
+        "moviesgrid.vercel.app",
         canvas.width - CANVAS_CONFIG.padding,
         canvas.height - CANVAS_CONFIG.padding / 2
       )
