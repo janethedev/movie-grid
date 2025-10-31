@@ -116,7 +116,7 @@ export function useCanvasRenderer({
         // 绘制封面区域
         if (cell.imageObj) {
           try {
-            // 绘制游戏封面
+            // 绘制电影封面
             ctx.drawImage(cell.imageObj, coverX, coverY, coverWidth, coverHeight);
           } catch (error) {
             console.error(`绘制图片失败: ${cell.name || index}`, error);
@@ -156,7 +156,7 @@ export function useCanvasRenderer({
         )
         ctx.textBaseline = prevBaseline
 
-        // 如果有游戏名称，绘制游戏名称
+        // 如果有电影名称，绘制电影名称
         if (cell.name) {
           // 副标题使用 alphabetic 基线，配合基于字号的 Y 计算，避免偏下
           const prevBaseline2 = ctx.textBaseline
@@ -164,7 +164,7 @@ export function useCanvasRenderer({
           ctx.fillStyle = "#4b5563" // 灰色文字
           ctx.font = `${CANVAS_CONFIG.cellNameFontSize}px sans-serif`
 
-          // 截断过长的游戏名称
+          // 截断过长的电影名称
           let gameName = cell.name
           let textWidth = ctx.measureText(gameName).width
           const maxWidth = cellWidth - CANVAS_CONFIG.cellPadding * 4
@@ -300,12 +300,12 @@ export function useCanvasRenderer({
     ctx.fillStyle = "#f3f4f6"; // 淡灰色背景
     ctx.fillRect(x, y, width, height);
 
-    // 绘制游戏手柄图标
+    // 绘制电影手柄图标
     const iconSize = Math.min(width, height) * 0.4;
     const iconX = x + (width - iconSize) / 2;
     const iconY = y + (height - iconSize) / 2;
 
-    // 绘制游戏手柄图标
+    // 绘制电影手柄图标
     ctx.fillStyle = "#9ca3af";
     ctx.strokeStyle = "#9ca3af";
     ctx.lineWidth = 3;

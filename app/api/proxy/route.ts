@@ -13,10 +13,16 @@ export async function GET(request: Request) {
   }
 
   try {
+    // 根据图片来源设置不同的 Referer
+    let referer = "https://bgm.tv/";
+    if (imageUrl.includes("douban") || imageUrl.includes("doubanio")) {
+      referer = "https://movie.douban.com/";
+    }
+
     const response = await fetch(imageUrl, {
       headers: {
-        "User-Agent": BANGUMI_USER_AGENT || "GameGrid/1.0",
-        Referer: "https://bgm.tv/",
+        "User-Agent": BANGUMI_USER_AGENT || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Referer: referer,
       },
     });
     if (!response.ok) {

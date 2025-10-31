@@ -43,9 +43,9 @@ async function fetchWithRetry(url: string, options: RequestInit, retries = 2, ti
   }
 }
 
-// 为游戏列表请求定制的更积极的重试策略
+// 为电影列表请求定制的更积极的重试策略
 async function fetchGameList(url: string, options: RequestInit) {
-  // 游戏列表接口使用更积极的重试策略
+  // 电影列表接口使用更积极的重试策略
   return fetchWithRetry(url, options, 5, 5000, 500);
 }
 
@@ -82,12 +82,12 @@ export async function GET(request: Request) {
       }) + '\n'));
 
       try {
-        console.log(`开始搜索游戏: "${query}", API密钥是否存在: ${!!STEAMGRIDDB_API_KEY}`);
+        console.log(`开始搜索电影: "${query}", API密钥是否存在: ${!!STEAMGRIDDB_API_KEY}`);
 
         // 创建一个新的 AbortController 仅用于这次搜索请求
         const searchAbortController = new AbortController();
 
-        // 搜索游戏
+        // 搜索电影
         const searchUrl = `https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(query)}`;
         console.log(`发送搜索请求到: ${searchUrl}`);
 
@@ -118,13 +118,13 @@ export async function GET(request: Request) {
             console.log('没有找到搜索结果');
             controller.enqueue(new TextEncoder().encode(JSON.stringify({
               type: "end",
-              message: "没有找到任何游戏"
+              message: "没有找到任何电影"
             }) + '\n'));
             controller.close();
             return;
           }
 
-          // 发送初始消息，告知前端总游戏数量
+          // 发送初始消息，告知前端总电影数量
           controller.enqueue(new TextEncoder().encode(JSON.stringify({
             type: "init",
             total: Math.min(searchData.data.length, 10)
@@ -137,13 +137,13 @@ export async function GET(request: Request) {
           // 为封面请求创建单独的 AbortController
           const coverAbortController = new AbortController();
 
-          // 同时请求多个游戏的封面，但限制并发数
-          const batchSize = 2; // 每批处理的游戏数
+          // 同时请求多个电影的封面，但限制并发数
+          const batchSize = 2; // 每批处理的电影数
 
           for (let i = 0; i < results.length; i += batchSize) {
             const batch = results.slice(i, i + batchSize);
 
-            // 并行处理每个批次中的游戏
+            // 并行处理每个批次中的电影
             await Promise.all(batch.map(game => processGame(game, coverAbortController.signal)));
 
             // 添加每批次的延迟，减轻API负担
@@ -156,19 +156,19 @@ export async function GET(request: Request) {
           controller.enqueue(new TextEncoder().encode(JSON.stringify({
             type: "end",
             message: successCount > 0
-              ? "所有游戏数据已发送完成"
-              : "未能获取游戏封面，请重试",
+              ? "所有电影数据已发送完成"
+              : "未能获取电影封面，请重试",
             successCount
           }) + '\n'));
 
 
 
-          // 处理单个游戏
+          // 处理单个电影
           async function processGame(game: any, signal: AbortSignal) {
             try {
-              console.log(`处理游戏: ${game.id} (${game.name})`);
+              console.log(`处理电影: ${game.id} (${game.name})`);
 
-              // 先发送游戏的基本信息，不含图片
+              // 先发送电影的基本信息，不含图片
               controller.enqueue(new TextEncoder().encode(JSON.stringify({
                 type: "gameStart",
                 game: {
@@ -214,10 +214,10 @@ export async function GET(request: Request) {
 
                     if (data.data && data.data.length > 0) {
                       image = data.data[0].url;
-                      console.log(`游戏 ${game.id} 找到${format.name}格式的图片`);
+                      console.log(`电影 ${game.id} 找到${format.name}格式的图片`);
                       break; // 找到图片后停止尝试其他格式
                     } else {
-                      console.log(`游戏 ${game.id} 没有${format.name}格式图片`);
+                      console.log(`电影 ${game.id} 没有${format.name}格式图片`);
                     }
                   }
                 } catch (formatError) {
@@ -229,7 +229,7 @@ export async function GET(request: Request) {
                 }
               }
 
-              // 发送游戏完整信息，含图片URL
+              // 发送电影完整信息，含图片URL
               controller.enqueue(new TextEncoder().encode(JSON.stringify({
                 type: "gameComplete",
                 game: {
@@ -245,17 +245,17 @@ export async function GET(request: Request) {
               // 检查是否是取消请求导致的错误
               if ((error as any).name === 'AbortError') {
                 // 对于取消的请求，只记录，不向客户端发送错误
-                console.log(`游戏 ${game.id} 请求被取消`);
+                console.log(`电影 ${game.id} 请求被取消`);
                 return;
               }
 
-              console.error(`处理游戏 ${game.id} 失败:`, error);
+              console.error(`处理电影 ${game.id} 失败:`, error);
 
               // 发送失败信息
               controller.enqueue(new TextEncoder().encode(JSON.stringify({
                 type: "gameError",
                 gameId: game.id,
-                error: "获取游戏信息失败"
+                error: "获取电影信息失败"
               }) + '\n'));
             }
           }
@@ -274,12 +274,12 @@ export async function GET(request: Request) {
         controller.close();
 
       } catch (error) {
-        console.error("搜索游戏失败:", error);
+        console.error("搜索电影失败:", error);
 
         // 发送错误信息
         controller.enqueue(new TextEncoder().encode(JSON.stringify({
           type: "error",
-          message: error instanceof Error ? error.message : "搜索游戏失败，请稍后再试"
+          message: error instanceof Error ? error.message : "搜索电影失败，请稍后再试"
         }) + '\n'));
 
         // 关闭流

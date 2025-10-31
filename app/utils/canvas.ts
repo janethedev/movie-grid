@@ -1,7 +1,7 @@
 import { DrawCommand, CanvasConfig } from "../types";
 
 /**
- * 生成游戏手柄图标路径
+ * 生成电影手柄图标路径
  */
 export const gamepadIconPath = (x: number, y: number, size: number): DrawCommand[] => {
   // 缩放因子，使图标适应给定的尺寸

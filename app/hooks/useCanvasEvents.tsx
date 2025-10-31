@@ -61,7 +61,7 @@ export function useCanvasEvents({
         // 点击标题区域，编辑标题
         openTitleEditDialog(cellId);
       } else if (clickArea === "name") {
-        // 点击游戏名称区域，编辑游戏名称
+        // 点击电影名称区域，编辑电影名称
         openNameEditDialog(cellId);
       }
     }
@@ -160,7 +160,7 @@ export function useCanvasEvents({
         const updatedCell: GameCell = {
           ...cells[cellId],
           image: uniqueImageUrl,
-          name: file.name.replace(/\.[^/.]+$/, ""), // 移除文件扩展名作为游戏名称
+          name: file.name.replace(/\.[^/.]+$/, ""), // 移除文件扩展名作为电影名称
           imageObj: null, // 明确清除旧的图片对象
         }
 
@@ -192,7 +192,7 @@ export function useCanvasEvents({
       const dataUrl = canvas.toDataURL("image/png")
 
       // 获取主标题（从localStorage）
-      let fileName = "游戏生涯个人喜好表.png";
+      let fileName = "电影生涯个人喜好表.png";
       try {
         const savedConfig = localStorage.getItem('gameGridGlobalConfig');
         if (savedConfig) {

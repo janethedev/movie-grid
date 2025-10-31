@@ -7,7 +7,7 @@ const BANGUMI_ACCESS_TOKEN = process.env.BANGUMI_ACCESS_TOKEN;
 // Bangumi API User Agent
 const BANGUMI_USER_AGENT = process.env.BANGUMI_USER_AGENT;
 
-// Bangumi游戏类型定义
+// Bangumi电影类型定义
 interface BangumiGame {
   id: number;
   name: string;
@@ -58,7 +58,7 @@ async function fetchWithRetry(
   }
 }
 
-// 处理单个游戏的函数
+// 处理单个电影的函数
 async function processGame(
   game: BangumiGame,
   signal: AbortSignal,
@@ -69,9 +69,9 @@ async function processGame(
     // HTML entities workaround
     game.name = game.name.replaceAll("&amp;", "&");
 
-    console.log(`处理游戏: ${game.id} (${game.name})`);
+    console.log(`处理电影: ${game.id} (${game.name})`);
 
-    // 先发送游戏的基本信息，不含图片
+    // 先发送电影的基本信息，不含图片
     controller.enqueue(
       new TextEncoder().encode(
         JSON.stringify({
@@ -87,7 +87,7 @@ async function processGame(
 
     let image = null;
 
-    // 尝试获取游戏封面
+    // 尝试获取电影封面
     if (game.images && game.images.large) {
       image = game.images.large;
     } else if (game.images && game.images.common) {
@@ -129,11 +129,11 @@ async function processGame(
         if ((detailError as any).name === "AbortError") {
           throw detailError; // 重新抛出以终止整个流程
         }
-        console.log(`获取游戏详情失败:`, detailError);
+        console.log(`获取电影详情失败:`, detailError);
       }
     }
 
-    // 发送游戏完整信息，含图片URL
+    // 发送电影完整信息，含图片URL
     controller.enqueue(
       new TextEncoder().encode(
         JSON.stringify({
@@ -152,11 +152,11 @@ async function processGame(
     // 检查是否是取消请求导致的错误
     if ((error as any).name === "AbortError") {
       // 对于取消的请求，只记录，不向客户端发送错误
-      console.log(`游戏 ${game.id} 请求被取消`);
+      console.log(`电影 ${game.id} 请求被取消`);
       return;
     }
 
-    console.error(`处理游戏 ${game.id} 失败:`, error);
+    console.error(`处理电影 ${game.id} 失败:`, error);
     controller.enqueue(
       new TextEncoder().encode(
         JSON.stringify({
@@ -191,12 +191,12 @@ export async function GET(request: Request) {
       );
 
       try {
-        console.log(`开始在Bangumi搜索游戏: "${query}"`);
+        console.log(`开始在Bangumi搜索电影: "${query}"`);
 
         // 创建一个新的 AbortController 仅用于这次搜索请求
         const searchAbortController = new AbortController();
 
-        // 搜索游戏 - 使用Bangumi API
+        // 搜索电影 - 使用Bangumi API
         const searchUrl = `${BANGUMI_API_BASE_URL}/search/subject/${encodeURIComponent(
           query
         )}?type=4&responseGroup=small`;
@@ -229,7 +229,7 @@ export async function GET(request: Request) {
               new TextEncoder().encode(
                 JSON.stringify({
                   type: "end",
-                  message: "没有找到任何游戏",
+                  message: "没有找到任何电影",
                 }) + "\n"
               )
             );
@@ -237,7 +237,7 @@ export async function GET(request: Request) {
             return;
           }
 
-          // 发送初始消息，告知前端总游戏数量
+          // 发送初始消息，告知前端总电影数量
           controller.enqueue(
             new TextEncoder().encode(
               JSON.stringify({
@@ -254,13 +254,13 @@ export async function GET(request: Request) {
           // 为详情请求创建单独的 AbortController
           const detailAbortController = new AbortController();
 
-          // 同时请求多个游戏的详情，但限制并发数
-          const batchSize = 2; // 每批处理的游戏数
+          // 同时请求多个电影的详情，但限制并发数
+          const batchSize = 2; // 每批处理的电影数
 
           for (let i = 0; i < results.length; i += batchSize) {
             const batch = results.slice(i, i + batchSize);
 
-            // 并行处理每个批次中的游戏
+            // 并行处理每个批次中的电影
             await Promise.all(
               batch.map((game: BangumiGame) =>
                 processGame(
@@ -285,8 +285,8 @@ export async function GET(request: Request) {
                 type: "end",
                 message:
                   successCountRef.value > 0
-                    ? "所有游戏数据已发送完成"
-                    : "未能获取游戏封面，请重试",
+                    ? "所有电影数据已发送完成"
+                    : "未能获取电影封面，请重试",
                 successCount: successCountRef.value,
               }) + "\n"
             )
@@ -299,7 +299,7 @@ export async function GET(request: Request) {
             return;
           }
 
-          console.error("搜索游戏失败:", searchError);
+          console.error("搜索电影失败:", searchError);
           controller.enqueue(
             new TextEncoder().encode(
               JSON.stringify({

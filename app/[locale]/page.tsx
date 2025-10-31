@@ -124,11 +124,11 @@ export default function Home() {
         };
         if (locale.startsWith('zh')) {
           webAppLd.alternateName = [
-            '游戏生涯喜好表',
-            '游戏生涯个人喜好表',
-            '游戏喜好表',
-            '游戏九宫格',
-            '游戏喜好九宫格',
+            '电影生涯喜好表',
+            '电影生涯个人喜好表',
+            '电影喜好表',
+            '电影九宫格',
+            '电影喜好九宫格',
           ];
         }
         const faqLd = locale === 'zh-CN'
@@ -138,16 +138,16 @@ export default function Home() {
               mainEntity: [
                 {
                   '@type': 'Question',
-                  name: '什么是游戏生涯喜好表（游戏喜好表）？',
+                  name: '什么是电影生涯喜好表（电影喜好表）？',
                   acceptedAnswer: {
                     '@type': 'Answer',
                     text:
-                      '一种用九宫格等布局展示你对不同维度「最爱、最惊艳、最治愈」等的游戏偏好，可导出分享。',
+                      '一种用九宫格等布局展示你对不同维度「最爱、最惊艳、最治愈」等的电影偏好，可导出分享。',
                   },
                 },
                 {
                   '@type': 'Question',
-                  name: '如何生成我的游戏生涯喜好表？',
+                  name: '如何生成我的电影生涯喜好表？',
                   acceptedAnswer: {
                     '@type': 'Answer',
                     text:

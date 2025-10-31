@@ -1,5 +1,5 @@
 /**
- * 游戏格子类型定义
+ * 电影格子类型定义
  */
 export interface GameCell {
   id: number;
@@ -47,7 +47,7 @@ export interface CanvasConfig {
 }
 
 /**
- * 搜索游戏结果项
+ * 搜索电影结果项
  */
 export interface GameSearchResult {
   id?: number | string;

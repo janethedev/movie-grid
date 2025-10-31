@@ -26,7 +26,7 @@ interface GameSearchDialogProps {
 /**
  * 搜索源类型
  */
-type SearchSource = 'steamgriddb' | 'bangumi';
+type SearchSource = 'steamgriddb' | 'bangumi' | 'douban';
 
 /**
  * 搜索状态类型
@@ -37,7 +37,7 @@ type SearchStatus = {
 };
 
 /**
- * 游戏搜索对话框组件
+ * 电影搜索对话框组件
  */
 export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadImage }: GameSearchDialogProps) {
   const { t } = useI18n();
@@ -51,7 +51,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
   // 添加状态来跟踪总结果数量
   const [totalResults, setTotalResults] = useState<number>(0)
   // 添加搜索源状态
-  const [searchSource, setSearchSource] = useState<SearchSource>('bangumi')
+  const [searchSource, setSearchSource] = useState<SearchSource>('douban')
   
   // 用于存储搜索请求的 AbortController，以便能取消进行中的请求
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -90,7 +90,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     setSearchTerm('');
     setSearchResults([]);
     setTotalResults(0);
-    setSearchStatus({ state: 'idle', message: "输入游戏名称开始搜索" });
+    setSearchStatus({ state: 'idle', message: "输入电影名称开始搜索" });
     lastSearchTermRef.current = '';
   };
 
@@ -101,7 +101,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     handleClearSearch();
   };
 
-  // 搜索游戏 - 使用流式响应
+  // 搜索电影 - 使用流式响应
   const searchGames = async (retry: boolean = false) => {
     // 获取搜索词，如果是重试则使用最后一次的搜索词
     const term = retry ? lastSearchTermRef.current : searchTerm.trim();
@@ -150,8 +150,10 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     try {
       // 根据搜索源选择不同的API端点
       const apiEndpoint = searchSource === 'steamgriddb' 
-        ? `/api/search?q=${encodeURIComponent(term)}`
-        : `/api/bangumi-search?q=${encodeURIComponent(term)}`;
+      ? `/api/search?q=${encodeURIComponent(term)}`
+      : searchSource === 'douban'
+      ? `/api/douban-search?q=${encodeURIComponent(term)}`
+      : `/api/bangumi-search?q=${encodeURIComponent(term)}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -226,7 +228,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                   break;
 
                 case "gameStart":
-                  // 游戏开始加载，添加到结果中（无图片）
+                  // 电影开始加载，添加到结果中（无图片）
                   if (data.game.id !== undefined) {
                     receivedGames.set(data.game.id, data.game);
                   }
@@ -235,7 +237,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                   break;
 
                 case "gameComplete":
-                  // 游戏加载完成（有图片），更新结果
+                  // 电影加载完成（有图片），更新结果
                   if (data.game.id !== undefined) {
                     receivedGames.set(data.game.id, data.game);
                   }
@@ -244,7 +246,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                   break;
 
                 case "gameError":
-                  console.error(`游戏 ${data.gameId} 加载失败:`, data.error);
+                  console.error(`电影 ${data.gameId} 加载失败:`, data.error);
                   break;
 
                 case "error":
@@ -258,7 +260,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                   } else {
                     setSearchStatus({ 
                       state: 'no-results', 
-                      message: data.message || "未找到相关游戏" 
+                      message: data.message || "未找到相关电影" 
                     });
                   }
                   break;
@@ -275,7 +277,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
         if (games.length > 0) {
           setSearchStatus({ state: 'success', message: '' });
         } else {
-          setSearchStatus({ state: 'no-results', message: "未找到相关游戏" });
+          setSearchStatus({ state: 'no-results', message: "未找到相关电影" });
         }
       }
 
@@ -292,7 +294,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
         return;
       }
 
-      console.error("搜索游戏失败:", error);
+      console.error("搜索电影失败:", error);
       
       setSearchStatus({ 
         state: 'error', 
@@ -397,8 +399,26 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
         <div className="mb-4">
           <div className="flex items-center mb-2">
             <span className="text-sm text-gray-500 mr-2">{t('search.source')}</span>
-            <Tabs defaultValue="steamgriddb" value={searchSource} onValueChange={handleSearchSourceChange} className="flex-1">
-              <TabsList className="grid w-full grid-cols-2">
+            <Tabs defaultValue="douban" value={searchSource} onValueChange={handleSearchSourceChange} className="flex-1">
+              <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="douban" className="flex items-center justify-center gap-1">
+                豆瓣
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span 
+                        className="inline-flex items-center justify-center cursor-help"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Info className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={5} align="center">
+                      <p>豆瓣电影库，支持中文电影搜索</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TabsTrigger>
                 <TabsTrigger value="bangumi" className="flex items-center justify-center gap-1">
                   Bangumi
                   <TooltipProvider>

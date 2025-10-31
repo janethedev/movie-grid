@@ -11,8 +11,8 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   // Used to construct absolute canonical/alternate URLs
   metadataBase: new URL("https://gamegrid.shatranj.space"),
-  title: "游戏生涯个人喜好表",
-  description: "创建你的游戏生涯个人喜好表",
+  title: "电影生涯个人喜好表",
+  description: "创建你的电影生涯个人喜好表",
   verification: {
     google: "swtOMxSQC6Dfn-w4YtMQ3OFH4SZz00Blcd6FI0qMgJc",
   },

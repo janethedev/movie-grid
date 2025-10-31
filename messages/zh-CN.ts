@@ -1,10 +1,10 @@
 const zhCN = {
   meta: {
-    title: '游戏生涯个人喜好表｜游戏喜好表生成器',
-    description: '创建你的游戏生涯喜好表（游戏喜好表/九宫格），支持多语言与自定义格子，一键导出高清图片。',
+    title: '电影生涯个人喜好表｜电影喜好表生成器',
+    description: '创建你的电影生涯喜好表（电影喜好表/九宫格），支持多语言与自定义格子，一键导出高清图片。',
   },
   global: {
-    main_title: '游戏生涯个人喜好表',
+    main_title: '电影生涯个人喜好表',
   },
   cell_titles: [
     '最爱的',
@@ -34,12 +34,12 @@ const zhCN = {
   ],
   ui: {
     tip_edit:
-      '提示：点击顶部标题、格子标题或游戏名称可以编辑；也可直接拖拽图片到格子中。',
+      '提示：点击顶部标题、格子标题或电影名称可以编辑；也可直接拖拽图片到格子中。',
     generate: '生成{title}！',
   },
   dialog: {
     edit_title: '编辑标题',
-    edit_game_name: '编辑游戏名称',
+    edit_game_name: '编辑电影名称',
     edit_main_title: '编辑主标题',
   },
   common: {
@@ -55,23 +55,23 @@ const zhCN = {
   },
   seo: {
     intro:
-      '游戏生涯个人喜好表（也常称作“游戏生涯喜好表”、“游戏喜好表”、“游戏喜好九宫格”）在线生成器。支持多语言标题与自定义格子，拖拽或搜索添加封面，一键导出高分辨率图片。',
+      '电影生涯个人喜好表（也常称作“电影生涯喜好表”、“电影喜好表”、“电影喜好九宫格”）在线生成器。支持多语言标题与自定义格子，拖拽或搜索添加封面，一键导出高分辨率图片。',
   },
   search: {
-    title: '搜索游戏',
+    title: '搜索电影',
     source: '搜索源：',
-    placeholder: '输入游戏名称开始搜索',
+    placeholder: '输入电影名称开始搜索',
     searching: '搜索中',
     search: '搜索',
     retry: '重试',
-    no_results: '未找到相关游戏',
+    no_results: '未找到相关电影',
     try_keywords: '请尝试不同的关键词',
-    idle_hint: '输入游戏名称开始搜索',
+    idle_hint: '输入电影名称开始搜索',
     results_count: '找到 {count} 个结果',
     clear: '清除搜索',
     upload_image: '上传图片',
-    bangumi_tip: 'Bangumi 是专注动画、游戏的中文数据库，对 ACG 相关游戏支持较好。',
-    sgdb_tip: 'SteamGridDB 是游戏封面数据库，收录丰富，但仅支持英文名搜索。',
+    bangumi_tip: 'Bangumi 是专注动画、电影的中文数据库，对 ACG 相关电影支持较好。',
+    sgdb_tip: 'SteamGridDB 是电影封面数据库，收录丰富，但仅支持英文名搜索。',
   },
 };
 

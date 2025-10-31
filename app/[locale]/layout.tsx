@@ -24,11 +24,11 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
 
   const keywords = locale.startsWith('zh')
     ? [
-        '游戏生涯喜好表',
-        '游戏生涯个人喜好表',
-        '游戏喜好表',
-        '游戏九宫格',
-        '游戏喜好九宫格',
+        '电影生涯喜好表',
+        '电影生涯个人喜好表',
+        '电影喜好表',
+        '电影九宫格',
+        '电影喜好九宫格',
         '喜好表生成器',
       ]
     : undefined;

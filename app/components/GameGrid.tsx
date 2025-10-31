@@ -75,7 +75,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     setIsTitleDialogOpen(true);
   };
 
-  // 打开游戏名称编辑对话框
+  // 打开电影名称编辑对话框
   const openNameEditDialog = (cellId: number) => {
     setSelectedCellId(cellId);
     setEditingText(cells[cellId].name || "");
@@ -144,7 +144,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     setIsTitleDialogOpen(false);
   };
 
-  // 保存游戏名称更改
+  // 保存电影名称更改
   const handleSaveName = (newText: string) => {
     if (selectedCellId === null) return;
 
@@ -200,12 +200,14 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale])
 
-  // 选择游戏
+  // 选择电影
   const handleSelectGame = async (game: GameSearchResult) => {
     if (selectedCellId === null) return;
     
-    // 使用代理URL替换直接的外部URL
-    const proxyImageUrl = `/api/proxy?url=${encodeURIComponent(game.image)}`;
+    // 如果图片URL不是以 /api/proxy 开头，才使用代理包裹
+    const proxyImageUrl = game.image.startsWith('/api/proxy') 
+    ? game.image 
+    : `/api/proxy?url=${encodeURIComponent(game.image)}`;
 
     try {
       // 先更新UI显示，让用户知道正在处理
@@ -387,7 +389,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
         {t('ui.generate', { title: globalConfig.mainTitle })}
       </Button>
 
-      {/* 游戏搜索对话框 */}
+      {/* 电影搜索对话框 */}
       <GameSearchDialog 
         isOpen={isSearchDialogOpen} 
         onOpenChange={setIsSearchDialogOpen} 
@@ -404,7 +406,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
         onSave={handleSaveTitle}
       />
       
-      {/* 游戏名称编辑对话框 */}
+      {/* 电影名称编辑对话框 */}
       <TextEditDialog
         isOpen={isNameDialogOpen}
         onOpenChange={setIsNameDialogOpen}
