@@ -32,6 +32,7 @@ export interface CanvasConfig {
   height: number;
   padding: number;
   titleHeight: number;
+  titleBottomMargin: number;
   gridRows: number;
   gridCols: number;
   cellPadding: number;

@@ -60,7 +60,7 @@ export function useCanvasRenderer({
       ctx.fillText(title, canvas.width / 2, titleY)
 
       // 计算网格区域
-      const gridTop = CANVAS_CONFIG.padding + CANVAS_CONFIG.titleHeight
+      const gridTop = CANVAS_CONFIG.padding + CANVAS_CONFIG.titleHeight + (CANVAS_CONFIG.titleBottomMargin || 0)
       const gridWidth = canvas.width - CANVAS_CONFIG.padding * 2
       const gridHeight = canvas.height - gridTop - CANVAS_CONFIG.padding
 

@@ -12,9 +12,10 @@ export const isBrowser = typeof window !== 'undefined';
  */
 export const CANVAS_CONFIG: CanvasConfig = {
   width: 1200,
-  height: 1600,  // 从 1300 改为 1600
+  height: 1610,  // 从 1300 改为 1600
   padding: 40,
   titleHeight: 50,
+  titleBottomMargin: 20,
   gridRows: 5,
   gridCols: 6,
   cellPadding: 10,
