@@ -44,7 +44,7 @@ const ja = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '役に立ったらスターをお願いします →',
-    powered_by: 'Powered by SteamGridDB & Bangumi',
+    powered_by: 'Powered by Douban Movies',
     official_link: '公式リンク: moviesgrid.vercel.app',
   },
   search: {
@@ -60,8 +60,6 @@ const ja = {
     results_count: '{count} 件見つかりました',
     clear: 'クリア',
     upload_image: '画像をアップロード',
-    bangumi_tip: 'Bangumi はアニメ・ゲームに特化した中国語データベースです。',
-    sgdb_tip: 'SteamGridDB はゲームカバーのデータベース（英語名検索のみ）。',
   },
 };
 

@@ -1,9 +1,6 @@
 // app/api/proxy/route.ts
 import { NextResponse } from "next/server";
 
-// Bangumi API User Agent
-const BANGUMI_USER_AGENT = process.env.BANGUMI_USER_AGENT;
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const imageUrl = searchParams.get("url");
@@ -13,15 +10,12 @@ export async function GET(request: Request) {
   }
 
   try {
-    // 根据图片来源设置不同的 Referer
-    let referer = "https://bgm.tv/";
-    if (imageUrl.includes("douban") || imageUrl.includes("doubanio")) {
-      referer = "https://movie.douban.com/";
-    }
+    // 设置豆瓣图片的 Referer
+    const referer = "https://movie.douban.com/";
 
     const response = await fetch(imageUrl, {
       headers: {
-        "User-Agent": BANGUMI_USER_AGENT || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         Referer: referer,
       },
     });

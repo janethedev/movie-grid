@@ -34,5 +34,6 @@
 - PR：提供清晰描述、UI 变更截图、复现步骤及涉及的环境变量；聚焦单一改动，避免无关重构。
 
 ## 安全与配置提示
-- 在 `.env.local`（勿提交）中配置：`STEAMGRIDDB_API_KEY`、`BANGUMI_ACCESS_TOKEN`、`BANGUMI_USER_AGENT`。
+- （可选）在 `.env.local`（勿提交）中配置：`NEXT_PUBLIC_GA_ID`（Google Analytics 追踪 ID）。
+- 本项目使用豆瓣电影 API，无需额外的 API 密钥配置。
 - 避免输出敏感信息日志。远程图片域名在 `next.config.js` 的 `images.remotePatterns` 中配置。

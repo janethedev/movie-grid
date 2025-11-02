@@ -56,7 +56,7 @@ const zhCN = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '如果觉得对你有用请点 →',
-    powered_by: 'Powered by SteamGridDB & Bangumi',
+    powered_by: 'Powered by 豆瓣电影',
     official_link: '唯一指定链接：moviesgrid.vercel.app',
   },
   seo: {
@@ -76,8 +76,6 @@ const zhCN = {
     results_count: '找到 {count} 个结果',
     clear: '清除搜索',
     upload_image: '上传图片',
-    bangumi_tip: 'Bangumi 是专注动画、电影的中文数据库，对 ACG 相关电影支持较好。',
-    sgdb_tip: 'SteamGridDB 是电影封面数据库，收录丰富，但仅支持英文名搜索。',
   },
 };
 

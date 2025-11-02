@@ -33,7 +33,7 @@ const pt = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'Achou útil? Dê uma estrela →',
-    powered_by: 'Com SteamGridDB & Bangumi',
+    powered_by: 'Powered by Douban Movies',
     official_link: 'Link oficial: moviesgrid.vercel.app',
   },
   search: {
@@ -49,8 +49,6 @@ const pt = {
     results_count: '{count} resultados',
     clear: 'Limpar',
     upload_image: 'Enviar imagem',
-    bangumi_tip: 'Bangumi é um banco de dados chinês focado em anime e jogos.',
-    sgdb_tip: 'SteamGridDB é um banco de capas (busca em inglês).',
   },
 };
 

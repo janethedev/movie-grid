@@ -33,7 +33,7 @@ const tr = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'İşe yaradıysa yıldız verin →',
-    powered_by: 'SteamGridDB & Bangumi ile',
+    powered_by: 'Powered by Douban Movies',
     official_link: 'Resmi bağlantı: moviesgrid.vercel.app',
   },
   search: {
@@ -49,8 +49,6 @@ const tr = {
     results_count: '{count} sonuç',
     clear: 'Temizle',
     upload_image: 'Görsel yükle',
-    bangumi_tip: 'Bangumi, anime ve oyun odaklı bir Çin veritabanıdır.',
-    sgdb_tip: 'SteamGridDB kapak veritabanıdır (yalnızca İngilizce arama).',
   },
 };
 

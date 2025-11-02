@@ -33,7 +33,7 @@ const ru = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'Полезно? Поставьте звезду →',
-    powered_by: 'При поддержке SteamGridDB и Bangumi',
+    powered_by: 'Powered by Douban Movies',
     official_link: 'Официальная ссылка: moviesgrid.vercel.app',
   },
   search: {
@@ -49,8 +49,6 @@ const ru = {
     results_count: 'Найдено: {count}',
     clear: 'Очистить',
     upload_image: 'Загрузить изображение',
-    bangumi_tip: 'Bangumi — китайская база по аниме и играм.',
-    sgdb_tip: 'SteamGridDB — база обложек (поиск на английском).',
   },
 };
 

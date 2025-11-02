@@ -5,16 +5,9 @@ import NextImage from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Gamepad2, Loader2, AlertCircle, Search, RefreshCw, Info, Upload } from "lucide-react"
+import { Gamepad2, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
 import { GameSearchResult } from "../types"
 import { useI18n } from "@/lib/i18n/provider"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 interface GameSearchDialogProps {
   isOpen: boolean
@@ -26,7 +19,7 @@ interface GameSearchDialogProps {
 /**
  * 搜索源类型
  */
-type SearchSource = 'steamgriddb' | 'bangumi' | 'douban';
+type SearchSource = 'douban';
 
 /**
  * 搜索状态类型
@@ -50,8 +43,6 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
   })
   // 添加状态来跟踪总结果数量
   const [totalResults, setTotalResults] = useState<number>(0)
-  // 添加搜索源状态
-  const [searchSource, setSearchSource] = useState<SearchSource>('douban')
   
   // 用于存储搜索请求的 AbortController，以便能取消进行中的请求
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -92,13 +83,6 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     setTotalResults(0);
     setSearchStatus({ state: 'idle', message: "输入电影名称开始搜索" });
     lastSearchTermRef.current = '';
-  };
-
-  // 处理搜索源切换
-  const handleSearchSourceChange = (value: string) => {
-    setSearchSource(value as SearchSource);
-    // 切换搜索源时清空搜索结果
-    handleClearSearch();
   };
 
   // 搜索电影 - 使用流式响应
@@ -148,12 +132,8 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     }, 3000);
 
     try {
-      // 根据搜索源选择不同的API端点
-      const apiEndpoint = searchSource === 'steamgriddb' 
-      ? `/api/search?q=${encodeURIComponent(term)}`
-      : searchSource === 'douban'
-      ? `/api/douban-search?q=${encodeURIComponent(term)}`
-      : `/api/bangumi-search?q=${encodeURIComponent(term)}`;
+      // 使用豆瓣 API 端点
+      const apiEndpoint = `/api/douban-search?q=${encodeURIComponent(term)}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -397,68 +377,6 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
         </DialogHeader>
         
         <div className="mb-4">
-          <div className="flex items-center mb-2">
-            <span className="text-sm text-gray-500 mr-2">{t('search.source')}</span>
-            <Tabs defaultValue="douban" value={searchSource} onValueChange={handleSearchSourceChange} className="flex-1">
-              <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="douban" className="flex items-center justify-center gap-1">
-                豆瓣
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span 
-                        className="inline-flex items-center justify-center cursor-help"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Info className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent sideOffset={5} align="center">
-                      <p>豆瓣电影库，支持中文电影搜索</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </TabsTrigger>
-                <TabsTrigger value="bangumi" className="flex items-center justify-center gap-1">
-                  Bangumi
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span 
-                          className="inline-flex items-center justify-center cursor-help"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Info className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent sideOffset={5} align="center">
-                        <p>{t('search.bangumi_tip')}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TabsTrigger>
-                <TabsTrigger value="steamgriddb" className="flex items-center justify-center gap-1">
-                  SteamGridDB
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span 
-                          className="inline-flex items-center justify-center cursor-help"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Info className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent sideOffset={5} align="center">
-                        <p>{t('search.sgdb_tip')}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-          
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Input

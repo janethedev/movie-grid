@@ -33,7 +33,7 @@ const nl = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'Handig? Geef een ster →',
-    powered_by: 'Mede mogelijk gemaakt door SteamGridDB & Bangumi',
+    powered_by: 'Powered by Douban Movies',
     official_link: 'Officiële link: moviesgrid.vercel.app',
   },
   search: {
@@ -49,8 +49,6 @@ const nl = {
     results_count: '{count} resultaten',
     clear: 'Wissen',
     upload_image: 'Afbeelding uploaden',
-    bangumi_tip: 'Bangumi is een Chinese DB voor anime en games.',
-    sgdb_tip: 'SteamGridDB is een covers-DB (alleen Engels zoeken).',
   },
 };
 

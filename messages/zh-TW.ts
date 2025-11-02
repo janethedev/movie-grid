@@ -46,7 +46,7 @@ const zhTW = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '如果覺得有幫助請點 →',
-    powered_by: 'Powered by SteamGridDB & Bangumi',
+    powered_by: 'Powered by 豆瓣電影',
     official_link: '唯一指定連結：moviesgrid.vercel.app',
   },
   search: {
@@ -62,8 +62,6 @@ const zhTW = {
     results_count: '找到 {count} 個結果',
     clear: '清除搜尋',
     upload_image: '上傳圖片',
-    bangumi_tip: 'Bangumi 是專注動畫、遊戲的中文資料庫，對 ACG 相關遊戲支援良好。',
-    sgdb_tip: 'SteamGridDB 是遊戲封面資料庫，收錄豐富，但僅支援英文名搜尋。',
   },
 };
 
