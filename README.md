@@ -1,23 +1,16 @@
-# GameGrid - 电影生涯个人喜好表
-
-![示例图](screenshot/me.png)
+![示例图](screenshot/preview.png)
 
 生成你自己的电影生涯个人喜好表！
 
 标题，名称，全部可以自由定义！
-
-## 欢迎Fork！
-
-在遵守MIT License的前提下，欢迎自由的改写表格内容或自定义数据源进行分发。  
-如果愿意，可以将自己创作的表格在[discussions](https://github.com/SomiaWhiteRing/gamegrid/discussions/2)中留言，我看到后会更新在项目主页！
 
 ## 快速开始
 
 克隆仓库并安装依赖项：
 
 ```bash
-git clone https://github.com/yourusername/gamegrid.git
-cd gamegrid
+git clone https://github.com/janethedev/movie-grid
+cd movie-grid
 npm install
 ```
 
@@ -28,15 +21,6 @@ npm run dev
 ```
 
 访问 [http://localhost:3000](http://localhost:3000) 查看应用。
-
-## 环境变量
-
-创建`.env.local`文件，添加以下配置（可选）：
-
-```bash
-# Google Analytics配置（可选）
-NEXT_PUBLIC_GA_ID=your_google_analytics_id
-```
 
 ### 配置说明
 
@@ -62,15 +46,12 @@ NEXT_PUBLIC_GA_ID=your_google_analytics_id
 
 本项目无需配置 API 密钥即可运行。如需启用 Google Analytics 追踪，可在部署平台的环境变量配置中添加 `NEXT_PUBLIC_GA_ID`。
 
-## 开发历程
-
-本项目使用GitHub Copilot与Codex辅助开发，提高了开发效率和代码质量。
-
 ## 致谢
 
-- 特别感谢[电影生涯个人喜好表（已下线）](https://gamegrid.azurewebsites.net)项目的灵感，本项目是对该创意的致敬。
-- 感谢豆瓣电影提供的数据支持。
+本项目基于 [SomiaWhiteRing/game-grid](https://github.com/SomiaWhiteRing/game-grid) 进行开发和修改。
+
+感谢原作者的开源贡献！
 
 ## 许可证
 
-MIT许可证 - 详情请参阅[LICENSE](LICENSE)文件
+MIT许可证 - 详情请参阅 [LICENSE](LICENSE) 文件
