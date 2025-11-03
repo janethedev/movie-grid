@@ -68,9 +68,7 @@ export default function Home() {
       )}
 
       <div className="text-sm text-gray-500 mt-1 text-center px-4">
-        <p className="flex items-center justify-center mb-1">
-          原作者：<a className="text-blue-500 mr-1" href="https://weibo.com/6571509464/Phs2X0DIy">苍旻白轮</a> {t('footer.made_with')}
-        </p>
+        <p className="flex items-center justify-center">{t('footer.powered_by')}</p>
         <p className="flex items-center justify-center mb-1">
           {t('footer.if_useful_star')}
           <a
@@ -86,8 +84,9 @@ export default function Home() {
             />
           </a>
         </p>
-        <p className="flex items-center justify-center">{t('footer.powered_by')}</p>
-        <p className="flex items-center justify-center">{t('footer.official_link')}</p>
+        <p className="flex items-center justify-center mb-1">
+          {t('footer.friendship_link')}<a className="text-blue-500 mr-1" href="https://gamegrid.shatranj.space/">{t('footer.friendship_link_site')}</a>
+        </p>
         <p className="flex items-center justify-center mt-1">
           <a
             href="https://hits.sh/github.com/janethedev/movie-grid"
@@ -96,7 +95,7 @@ export default function Home() {
             className="ml-2 inline-flex items-center"
           >
             <img
-              src="https://hits.sh/github.com/janethedev/movie-grid.svg?label=visitors&color=007ec6"
+              src="https://hits.sh/github.com/janethedev/movie-grid.svg?label=views&color=007ec6"
               alt="Visitors Count"
               className="align-middle"
             />

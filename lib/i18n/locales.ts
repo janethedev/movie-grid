@@ -1,35 +1,6 @@
-export type Locale =
-  | 'zh-CN'
-  | 'zh-TW'
-  | 'en'
-  | 'ja'
-  | 'ko'
-  | 'fr'
-  | 'de'
-  | 'es'
-  | 'pt'
-  | 'it'
-  | 'ru'
-  | 'nl'
-  | 'pl'
-  | 'tr';
+export type Locale = 'zh-CN' | 'en';
 
-export const locales: Locale[] = [
-  'zh-CN',
-  'zh-TW',
-  'en',
-  'ja',
-  'ko',
-  'fr',
-  'de',
-  'es',
-  'pt',
-  'it',
-  'ru',
-  'nl',
-  'pl',
-  'tr',
-];
+export const locales: Locale[] = ['zh-CN', 'en'];
 
 export const defaultLocale: Locale = 'zh-CN';
 
@@ -38,35 +9,12 @@ const langMap: Record<string, Locale> = {
   'zh-CN': 'zh-CN',
   'zh': 'zh-CN',
   'zh-Hans': 'zh-CN',
-  'zh-TW': 'zh-TW',
-  'zh-HK': 'zh-TW',
-  'zh-Hant': 'zh-TW',
+  'zh-TW': 'zh-CN',
+  'zh-HK': 'zh-CN',
+  'zh-Hant': 'zh-CN',
   en: 'en',
   'en-US': 'en',
   'en-GB': 'en',
-  ja: 'ja',
-  'ja-JP': 'ja',
-  ko: 'ko',
-  'ko-KR': 'ko',
-  fr: 'fr',
-  'fr-FR': 'fr',
-  de: 'de',
-  'de-DE': 'de',
-  es: 'es',
-  'es-ES': 'es',
-  pt: 'pt',
-  'pt-PT': 'pt',
-  'pt-BR': 'pt',
-  it: 'it',
-  'it-IT': 'it',
-  ru: 'ru',
-  'ru-RU': 'ru',
-  nl: 'nl',
-  'nl-NL': 'nl',
-  pl: 'pl',
-  'pl-PL': 'pl',
-  tr: 'tr',
-  'tr-TR': 'tr',
 };
 
 export function normalizeLocale(tag: string): Locale {

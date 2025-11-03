@@ -57,7 +57,8 @@ const zhCN = {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '如果觉得对你有用请点 →',
     powered_by: 'Powered by 豆瓣电影',
-    official_link: '唯一指定链接：moviesgrid.vercel.app',
+    friendship_link: '友情链接：',
+    friendship_link_site: '游戏生涯个人喜好表',
   },
   seo: {
     intro:
