@@ -1,7 +1,6 @@
 import type React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
 import { I18nProvider } from '@/lib/i18n/provider';
 import { getMessages } from '@/lib/i18n/getMessages';
 import { locales, type Locale } from '@/lib/i18n/locales';
@@ -78,7 +77,6 @@ export default async function LocaleLayout({
   return (
     <html lang={params.locale}>
       <body className={inter.className}>
-        <Analytics />
         <ApiWarmer />
         <I18nProvider locale={params.locale} messages={messages}>
           {children}

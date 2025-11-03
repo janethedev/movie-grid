@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Analytics } from "@vercel/analytics/react"
 import ApiWarmer from '@/components/ApiWarmer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import "./globals.css"
@@ -30,7 +29,6 @@ export default function RootLayout({
         <GoogleAnalytics />
       </head>
       <body className={inter.className}>
-        <Analytics />
         <ApiWarmer />
         {children}
       </body>
