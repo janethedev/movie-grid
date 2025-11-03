@@ -3,7 +3,7 @@
 import { useState, useEffect, RefObject } from "react"
 import { GameCell, GlobalConfig } from "../types"
 import { CANVAS_CONFIG, isBrowser } from "../constants"
-import { gamepadIconPath } from "../utils/canvas"
+import { filmIconPath } from "../utils/canvas"
 
 interface UseCanvasRendererProps {
   canvasRef: RefObject<HTMLCanvasElement>
@@ -198,7 +198,7 @@ export function useCanvasRenderer({
       ctx.font = "14px sans-serif"
       ctx.textAlign = "right"
       ctx.fillText(
-        "moviesgrid.vercel.app",
+        "moviegrid.dsdev.ink",
         canvas.width - CANVAS_CONFIG.padding,
         canvas.height - CANVAS_CONFIG.padding / 2
       )
@@ -309,7 +309,7 @@ export function useCanvasRenderer({
     ctx.fillStyle = "#9ca3af";
     ctx.strokeStyle = "#9ca3af";
     ctx.lineWidth = 3;
-    gamepadIconPath(iconX, iconY, iconSize).forEach((cmd) => {
+    filmIconPath(iconX, iconY, iconSize).forEach((cmd) => {
       if (cmd.cmd === "beginPath") {
         ctx.beginPath();
       } else if (cmd.cmd === "roundRect" && cmd.args && typeof ctx.roundRect === 'function') {

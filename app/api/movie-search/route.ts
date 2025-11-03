@@ -1,5 +1,10 @@
-// app/api/douban-search/route.ts
+// app/api/movie-search/route.ts
 import { NextResponse } from "next/server";
+import { ProxyAgent, fetch as undiciFetch } from 'undici';
+
+const TMDB_API_KEY = process.env.TMDB_API_KEY;
+const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
+const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -9,41 +14,46 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "搜索词不能为空" }, { status: 400 });
   }
 
-  // 使用流式响应，兼容前端现有逻辑
+  if (!TMDB_API_KEY) {
+    return NextResponse.json({ error: "未配置 TMDB_API_KEY，请在 .env.local 中添加" }, { status: 500 });
+  }
+
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
       
       try {
-        // 发送初始状态
         controller.enqueue(encoder.encode(JSON.stringify({ 
           type: "init", 
           message: "正在搜索电影..." 
         }) + "\n"));
 
-        // 直接使用豆瓣的搜索建议接口
-        const response = await fetch(
-          `https://movie.douban.com/j/subject_suggest?q=${encodeURIComponent(query)}`,
-          { 
-            headers: { 
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-              "Referer": "https://movie.douban.com/",
-              "Accept": "application/json",
-            }, 
-            cache: "no-store" 
-          }
-        );
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=zh-CN&page=1`;
 
-        if (!response.ok) {
-          throw new Error(`豆瓣接口返回 ${response.status}`);
+        // 配置请求选项
+        const fetchOptions: any = {
+          headers: {
+            "Accept": "application/json",
+          },
+        };
+
+        // 如果配置了代理，添加代理 dispatcher
+        if (PROXY_URL) {
+          console.log(`使用代理: ${PROXY_URL}`);
+          fetchOptions.dispatcher = new ProxyAgent(PROXY_URL);
+        } else {
+          console.log('未配置代理，使用 undici 直接访问');
         }
 
-        const suggest = await response.json();
-        
-        // 过滤出电影和电视剧类型
-        const movies = suggest
-          .filter((item: any) => item.type === 'movie' || item.type === 'tv')
-          .slice(0, 10);
+        // 统一使用 undiciFetch
+        const response = await undiciFetch(url, fetchOptions);
+
+        if (!response.ok) {
+          throw new Error(`TMDB 接口返回 ${response.status}`);
+        }
+
+        const data = await response.json() as any;
+        const movies = (data.results || []).slice(0, 10);
 
         if (movies.length === 0) {
           controller.enqueue(encoder.encode(JSON.stringify({
@@ -54,38 +64,34 @@ export async function GET(request: Request) {
           return;
         }
 
-        // 发送总数
         controller.enqueue(encoder.encode(JSON.stringify({
           type: "init",
           total: movies.length
         }) + "\n"));
 
-        // 逐个发送电影信息
         for (const item of movies) {
-          // 获取图片URL，通过代理转发以解决防盗链问题
-          const imageUrl = item.img || item.cover_url || null;
+          const imageUrl = item.poster_path 
+            ? `${TMDB_IMAGE_BASE}${item.poster_path}` 
+            : null;
           
           const game = {
             id: item.id,
-            name: item.title,
-            // 通过 /api/proxy 路由代理豆瓣图片，解决防盗链问题
+            name: item.title || item.original_title,
+            // 图片通过服务端代理访问，解决浏览器无法访问 TMDB CDN 的问题
             image: imageUrl ? `/api/proxy?url=${encodeURIComponent(imageUrl)}` : null,
           };
 
-          // 发送开始消息
           controller.enqueue(encoder.encode(JSON.stringify({
             type: "gameStart",
             game: { ...game, image: null }
           }) + "\n"));
 
-          // 发送完成消息（带图片）
           controller.enqueue(encoder.encode(JSON.stringify({
             type: "gameComplete",
             game
           }) + "\n"));
         }
 
-        // 发送结束消息
         controller.enqueue(encoder.encode(JSON.stringify({
           type: "end",
           message: "所有电影数据已发送完成",
@@ -93,7 +99,7 @@ export async function GET(request: Request) {
         }) + "\n"));
 
       } catch (error) {
-        console.error("豆瓣搜索失败", error);
+        console.error("TMDB 搜索失败", error);
         controller.enqueue(encoder.encode(JSON.stringify({
           type: "error",
           message: `搜索失败: ${(error as Error).message}`
@@ -107,8 +113,9 @@ export async function GET(request: Request) {
   return new Response(stream, {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=1800, s-maxage=1800, stale-while-revalidate=3600",
+      "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",
     },
   });
 }
+

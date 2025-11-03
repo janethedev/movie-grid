@@ -1,5 +1,8 @@
 // app/api/proxy/route.ts
 import { NextResponse } from "next/server";
+import { ProxyAgent, fetch as undiciFetch } from 'undici';
+
+const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,15 +13,21 @@ export async function GET(request: Request) {
   }
 
   try {
-    // 设置豆瓣图片的 Referer
-    const referer = "https://movie.douban.com/";
-
-    const response = await fetch(imageUrl, {
+    // 配置请求选项（支持 TMDB 图片代理）
+    const fetchOptions: any = {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Referer: referer,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "image/*",
       },
-    });
+    };
+
+    // 如果配置了代理，使用代理
+    if (PROXY_URL) {
+      fetchOptions.dispatcher = new ProxyAgent(PROXY_URL);
+    }
+
+    const response = await undiciFetch(imageUrl, fetchOptions);
+    
     if (!response.ok) {
       return new NextResponse(`Error fetching image: ${response.statusText}`, {
         status: response.status,
@@ -26,17 +35,17 @@ export async function GET(request: Request) {
     }
 
     const arrayBuffer = await response.arrayBuffer();
+    const contentType = response.headers.get("content-type") || "image/png";
+
     const headers = new Headers();
-    headers.set(
-      "Content-Type",
-      response.headers.get("Content-Type") || "image/png"
-    );
+    headers.set("Content-Type", contentType);
     headers.set("Cache-Control", "public, max-age=31536000");
 
     return new NextResponse(arrayBuffer, {
       headers,
     });
   } catch (error) {
+    console.error("获取图片失败:", imageUrl, error);
     return new NextResponse(`Failed to fetch image: ${error}`, {
       status: 500,
     });

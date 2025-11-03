@@ -5,7 +5,7 @@ import NextImage from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Gamepad2, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
+import { Film, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
 import { GameSearchResult } from "../types"
 import { useI18n } from "@/lib/i18n/provider"
 
@@ -15,11 +15,6 @@ interface GameSearchDialogProps {
   onSelectGame: (game: GameSearchResult) => void
   onUploadImage?: (file: File) => void
 }
-
-/**
- * 搜索源类型
- */
-type SearchSource = 'douban';
 
 /**
  * 搜索状态类型
@@ -132,8 +127,8 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
     }, 3000);
 
     try {
-      // 使用豆瓣 API 端点
-      const apiEndpoint = `/api/douban-search?q=${encodeURIComponent(term)}`;
+      // 使用电影搜索 API 端点（TMDB）
+      const apiEndpoint = `/api/movie-search?q=${encodeURIComponent(term)}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -337,7 +332,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
       case 'no-results':
         return (
           <div className="flex flex-col items-center justify-center py-10 text-gray-500">
-            <Gamepad2 className="h-8 w-8 mb-2 opacity-50" />
+            <Film className="h-8 w-8 mb-2 opacity-50" />
             <p>{searchStatus.message}</p>
             <p className="text-sm mt-2">{t('search.try_keywords')}</p>
           </div>
@@ -435,7 +430,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <Gamepad2 className="w-8 h-8 text-gray-400" />
+                        <Film className="w-8 h-8 text-gray-400" />
                       </div>
                     )}
                   </div>

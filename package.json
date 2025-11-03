@@ -18,12 +18,14 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "https-proxy-agent": "^7.0.6",
     "lucide-react": "^0.477.0",
     "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "undici": "^7.16.0"
   },
   "devDependencies": {
     "@playwright/mcp": "^0.0.41",

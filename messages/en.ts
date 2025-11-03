@@ -56,7 +56,7 @@ const en = {
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'If you find it useful, please star →',
-    powered_by: 'Powered by Douban Movies',
+    powered_by: 'Powered by TMDB',
     friendship_link: 'Friendship link:',
     friendship_link_site: 'Game Preference Grid',
   },

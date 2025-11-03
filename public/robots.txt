@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Sitemap: https://moviesgrid.vercel.app/sitemap.xml
-Host: moviesgrid.vercel.app
+Sitemap: https://moviegrid.dsdev.ink/sitemap.xml
+Host: moviegrid.dsdev.ink
 

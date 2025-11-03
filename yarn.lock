@@ -578,6 +578,11 @@
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.14.1.tgz"
   "version" "8.14.1"
 
+"agent-base@^7.1.2":
+  "integrity" "sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ=="
+  "resolved" "https://registry.npmmirror.com/agent-base/-/agent-base-7.1.4.tgz"
+  "version" "7.1.4"
+
 "ajv@^6.12.4":
   "integrity" "sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g=="
   "resolved" "https://registry.npmjs.org/ajv/-/ajv-6.12.6.tgz"
@@ -960,7 +965,7 @@
   dependencies:
     "ms" "^2.1.1"
 
-"debug@^4.3.1", "debug@^4.3.2", "debug@^4.3.4", "debug@^4.3.7":
+"debug@^4.3.1", "debug@^4.3.2", "debug@^4.3.4", "debug@^4.3.7", "debug@4":
   "integrity" "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.4.0.tgz"
   "version" "4.4.0"
@@ -1670,6 +1675,14 @@
   "version" "2.0.2"
   dependencies:
     "function-bind" "^1.1.2"
+
+"https-proxy-agent@^7.0.6":
+  "integrity" "sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw=="
+  "resolved" "https://registry.npmmirror.com/https-proxy-agent/-/https-proxy-agent-7.0.6.tgz"
+  "version" "7.0.6"
+  dependencies:
+    "agent-base" "^7.1.2"
+    "debug" "4"
 
 "ignore@^5.2.0", "ignore@^5.3.1":
   "integrity" "sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g=="
@@ -3068,6 +3081,11 @@
   "integrity" "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
   "resolved" "https://registry.npmjs.org/undici-types/-/undici-types-6.19.8.tgz"
   "version" "6.19.8"
+
+"undici@^7.16.0":
+  "integrity" "sha512-QEg3HPMll0o3t2ourKwOeUAZ159Kn9mx5pnzHRQO8+Wixmh88YdZRiIwat0iNzNNXn0yoEtXJqFpyW7eM8BV7g=="
+  "resolved" "https://registry.npmmirror.com/undici/-/undici-7.16.0.tgz"
+  "version" "7.16.0"
 
 "uri-js@^4.2.2":
   "integrity" "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="

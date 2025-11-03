@@ -67,8 +67,7 @@ export default function Home() {
         <GameGrid initialCells={cells} onUpdateCells={handleUpdateCells} />
       )}
 
-      <div className="text-sm text-gray-500 mt-1 text-center px-4">
-        <p className="flex items-center justify-center">{t('footer.powered_by')}</p>
+      <div className="text-sm text-gray-500 mt-6 text-center px-4">
         <p className="flex items-center justify-center mb-1">
           {t('footer.if_useful_star')}
           <a
@@ -86,6 +85,9 @@ export default function Home() {
         </p>
         <p className="flex items-center justify-center mb-1">
           {t('footer.friendship_link')}<a className="text-blue-500 mr-1" href="https://gamegrid.shatranj.space/">{t('footer.friendship_link_site')}</a>
+        </p>
+        <p className="flex items-center justify-center mb-1">
+        Powered by <a className="text-blue-500 ml-1" href="https://www.themoviedb.org/">TMDB</a>
         </p>
         <p className="flex items-center justify-center mt-1">
           <a
@@ -105,7 +107,7 @@ export default function Home() {
 
       {/* JSON-LD: WebApplication */}
       {(() => {
-        const base = 'https://moviesgrid.vercel.app';
+        const base = 'https://moviegrid.dsdev.ink';
         const url = `${base}/${locale}`;
         const webAppLd: any = {
           '@context': 'https://schema.org',

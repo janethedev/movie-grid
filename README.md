@@ -30,7 +30,18 @@ npm run dev
   3. 获取衡量 ID（格式：`G-XXXXXXXXXX`）
   4. 仅在生产环境启用，不配置则不启用追踪
 
-本项目使用豆瓣电影 API 进行电影搜索，无需额外的 API 密钥配置。
+本项目使用 TMDB (The Movie Database) API 进行电影搜索。
+
+### TMDB API 配置
+
+1. 访问 [TMDB 官网](https://www.themoviedb.org/) 注册账号
+2. 在账号设置中申请 API Key（免费）
+3. 在项目根目录创建 `.env.local` 文件，添加：
+   ```bash
+   TMDB_API_KEY=你的API密钥
+   # 如果需要代理访问 TMDB（中国大陆用户）
+   HTTPS_PROXY=http://127.0.0.1:7897
+   ```
 
 ## 部署
 

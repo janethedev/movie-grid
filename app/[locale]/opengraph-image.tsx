@@ -56,7 +56,7 @@ export default async function Image({
             color: '#1f2937',
           }}
         >
-          <span>moviesgrid.vercel.app</span>
+          <span>moviegrid.dsdev.ink</span>
           <span style={{ opacity: 0.75 }}>{locale}</span>
         </div>
       </div>

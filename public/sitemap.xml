@@ -3,19 +3,19 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <!-- Only indexable pages; root (/) is a redirect and omitted -->
   <url>
-    <loc>https://moviesgrid.vercel.app/zh-CN</loc>
+    <loc>https://moviegrid.dsdev.ink/zh-CN</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://moviesgrid.vercel.app/zh-CN"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://moviesgrid.vercel.app/en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://moviesgrid.vercel.app/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://moviegrid.dsdev.ink/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://moviegrid.dsdev.ink/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://moviegrid.dsdev.ink/zh-CN"/>
   </url>
   <url>
-    <loc>https://moviesgrid.vercel.app/en</loc>
+    <loc>https://moviegrid.dsdev.ink/en</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://moviesgrid.vercel.app/zh-CN"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://moviesgrid.vercel.app/en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://moviesgrid.vercel.app/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://moviegrid.dsdev.ink/zh-CN"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://moviegrid.dsdev.ink/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://moviegrid.dsdev.ink/zh-CN"/>
   </url>
 </urlset>
