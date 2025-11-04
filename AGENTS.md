@@ -1,6 +1,6 @@
 # 仓库指南
 
-本指南帮助贡献者与自动化代理在 GameGrid（Next.js）项目中保持一致协作。
+本指南帮助贡献者与自动化代理在 MovieGrid（Next.js）项目中保持一致协作。
 
 ## 项目结构与模块组织
 - `app/` App Router 入口、布局、页面与 API 路由（`app/api/<name>/route.ts`）。包含 `app/[locale]/`（i18n）、以及 `app/utils`、`app/hooks`、`app/components` 等功能域代码。

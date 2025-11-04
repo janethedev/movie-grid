@@ -1,7 +1,7 @@
 /**
  * 电影格子类型定义
  */
-export interface GameCell {
+export interface MovieCell {
   id: number;
   title: string;
   image?: string;
@@ -50,7 +50,7 @@ export interface CanvasConfig {
 /**
  * 搜索电影结果项
  */
-export interface GameSearchResult {
+export interface MovieSearchResult {
   id?: number | string;
   name: string;
   image: string;

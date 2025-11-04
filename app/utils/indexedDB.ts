@@ -1,5 +1,5 @@
 import { isBrowser, DB_CONFIG } from "../constants";
-import { GameCell } from "../types";
+import { MovieCell } from "../types";
 
 /**
  * 初始化IndexedDB
@@ -13,7 +13,7 @@ export async function initDB() {
     return null;
   }
 
-  return new Promise<IDBDatabase | null>((resolve, reject) => {
+  return new Promise<IDBDatabase | null>((resolve) => {
     try {
       const request = indexedDB.open(DB_CONFIG.name, DB_CONFIG.version);
 
@@ -43,7 +43,7 @@ export async function initDB() {
 /**
  * 保存单元格数据到IndexedDB
  */
-export async function saveToIndexedDB(cell: GameCell) {
+export async function saveToIndexedDB(cell: MovieCell) {
   if (!isBrowser) return;
 
   try {
@@ -54,7 +54,7 @@ export async function saveToIndexedDB(cell: GameCell) {
     const store = transaction.objectStore(DB_CONFIG.storeName);
 
     // 只保存必要的数据，不保存imageObj
-    const { imageObj, ...cellData } = cell;
+    const { imageObj: _imageObj, ...cellData } = cell;
     store.put(cellData);
 
     return new Promise<void>((resolve, reject) => {
@@ -84,7 +84,7 @@ export async function loadCellsFromDB() {
     const transaction = db.transaction(DB_CONFIG.storeName, "readonly");
     const store = transaction.objectStore(DB_CONFIG.storeName);
 
-    return new Promise<GameCell[]>((resolve, reject) => {
+    return new Promise<MovieCell[]>((resolve, reject) => {
       const request = store.getAll();
 
       request.onsuccess = () => {

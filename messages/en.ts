@@ -45,7 +45,7 @@ const en = {
   },
   dialog: {
     edit_title: 'Edit Title',
-    edit_game_name: 'Edit Movie Name',
+    edit_movie_name: 'Edit Movie Name',
     edit_main_title: 'Edit Main Title',
   },
   common: {

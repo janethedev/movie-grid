@@ -34,8 +34,8 @@ export const CANVAS_CONFIG: CanvasConfig = {
  * IndexedDB 配置
  */
 export const DB_CONFIG: DBConfig = {
-  name: "gamePreferenceDB",
-  storeName: "gameData",
+  name: "moviePreferenceDB",
+  storeName: "movieData",
   version: 1
 };
 

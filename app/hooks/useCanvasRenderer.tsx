@@ -1,14 +1,14 @@
 "use client"
 
 import { useState, useEffect, RefObject } from "react"
-import { GameCell, GlobalConfig } from "../types"
+import { MovieCell, GlobalConfig } from "../types"
 import { CANVAS_CONFIG, isBrowser } from "../constants"
 import { filmIconPath } from "../utils/canvas"
 
 interface UseCanvasRendererProps {
   canvasRef: RefObject<HTMLCanvasElement>
-  cells: GameCell[]
-  setCells: React.Dispatch<React.SetStateAction<GameCell[]>>
+  cells: MovieCell[]
+  setCells: React.Dispatch<React.SetStateAction<MovieCell[]>>
   dragOverCellId: number | null
   globalConfig: GlobalConfig
 }
@@ -21,7 +21,6 @@ export function useCanvasRenderer({
   globalConfig,
 }: UseCanvasRendererProps) {
   const [scale, setScale] = useState(1)
-  const [canvasLoaded, setCanvasLoaded] = useState(false)
 
   // 绘制Canvas
   const drawCanvas = () => {
@@ -165,22 +164,22 @@ export function useCanvasRenderer({
           ctx.font = `${CANVAS_CONFIG.cellNameFontSize}px sans-serif`
 
           // 截断过长的电影名称
-          let gameName = cell.name
-          let textWidth = ctx.measureText(gameName).width
+          let movieName = cell.name
+          let textWidth = ctx.measureText(movieName).width
           const maxWidth = cellWidth - CANVAS_CONFIG.cellPadding * 4
 
           if (textWidth > maxWidth) {
             // 截断文本并添加省略号
-            let truncated = gameName
+            let truncated = movieName
             while (textWidth > maxWidth && truncated.length > 0) {
               truncated = truncated.slice(0, -1)
               textWidth = ctx.measureText(truncated + "...").width
             }
-            gameName = truncated + "..."
+            movieName = truncated + "..."
           }
 
           ctx.fillText(
-            gameName,
+            movieName,
             x + cellWidth / 2,
             coverY +
               coverHeight +
@@ -254,12 +253,12 @@ export function useCanvasRenderer({
 
   // 当cells变化时重新绘制Canvas
   useEffect(() => {
-    if (canvasLoaded && isBrowser) {
+    if (isBrowser) {
       requestAnimationFrame(() => {
         drawCanvas();
       });
     }
-  }, [cells, canvasLoaded, dragOverCellId]);
+  }, [cells, dragOverCellId, drawCanvas]);
 
   // 加载图片
   useEffect(() => {
@@ -359,7 +358,6 @@ export function useCanvasRenderer({
 
   return {
     scale,
-    canvasLoaded,
     drawCanvas
   }
 }

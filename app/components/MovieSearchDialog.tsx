@@ -6,13 +6,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Film, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
-import { GameSearchResult } from "../types"
+import { MovieSearchResult } from "../types"
 import { useI18n } from "@/lib/i18n/provider"
 
-interface GameSearchDialogProps {
+interface MovieSearchDialogProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
-  onSelectGame: (game: GameSearchResult) => void
+  onSelectMovie: (movie: MovieSearchResult) => void
   onUploadImage?: (file: File) => void
 }
 
@@ -27,10 +27,10 @@ type SearchStatus = {
 /**
  * 电影搜索对话框组件
  */
-export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadImage }: GameSearchDialogProps) {
+export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploadImage }: MovieSearchDialogProps) {
   const { t } = useI18n();
   const [searchTerm, setSearchTerm] = useState("")
-  const [searchResults, setSearchResults] = useState<GameSearchResult[]>([])
+  const [searchResults, setSearchResults] = useState<MovieSearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchStatus, setSearchStatus] = useState<SearchStatus>({ 
     state: 'idle', 
@@ -81,7 +81,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
   };
 
   // 搜索电影 - 使用流式响应
-  const searchGames = async (retry: boolean = false) => {
+  const searchMovies = async (retry: boolean = false) => {
     // 获取搜索词，如果是重试则使用最后一次的搜索词
     const term = retry ? lastSearchTermRef.current : searchTerm.trim();
     
@@ -154,8 +154,8 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
       const decoder = new TextDecoder();
 
       // 临时保存结果的数组
-      let games: GameSearchResult[] = [];
-      const receivedGames = new Map<string | number, GameSearchResult>();
+      let movies: MovieSearchResult[] = [];
+      const receivedMovies = new Map<string | number, MovieSearchResult>();
 
       let done = false;
       let buffer = "";
@@ -202,26 +202,26 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                   }
                   break;
 
-                case "gameStart":
+                case "movieStart":
                   // 电影开始加载，添加到结果中（无图片）
-                  if (data.game.id !== undefined) {
-                    receivedGames.set(data.game.id, data.game);
+                  if (data.movie.id !== undefined) {
+                    receivedMovies.set(data.movie.id, data.movie);
                   }
-                  games = Array.from(receivedGames.values());
-                  setSearchResults([...games]);
+                  movies = Array.from(receivedMovies.values());
+                  setSearchResults([...movies]);
                   break;
 
-                case "gameComplete":
+                case "movieComplete":
                   // 电影加载完成（有图片），更新结果
-                  if (data.game.id !== undefined) {
-                    receivedGames.set(data.game.id, data.game);
+                  if (data.movie.id !== undefined) {
+                    receivedMovies.set(data.movie.id, data.movie);
                   }
-                  games = Array.from(receivedGames.values());
-                  setSearchResults([...games]);
+                  movies = Array.from(receivedMovies.values());
+                  setSearchResults([...movies]);
                   break;
 
-                case "gameError":
-                  console.error(`电影 ${data.gameId} 加载失败:`, data.error);
+                case "movieError":
+                  console.error(`电影 ${data.movieId} 加载失败:`, data.error);
                   break;
 
                 case "error":
@@ -230,7 +230,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
 
                 case "end":
                   reachEnd = true;
-                  if (games.length > 0) {
+                  if (movies.length > 0) {
                     setSearchStatus({ state: 'success', message: '' });
                   } else {
                     setSearchStatus({ 
@@ -249,7 +249,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
 
       // 如果流结束但没有收到end消息
       if (!reachEnd) {
-        if (games.length > 0) {
+        if (movies.length > 0) {
           setSearchStatus({ state: 'success', message: '' });
         } else {
           setSearchStatus({ state: 'no-results', message: "未找到相关电影" });
@@ -290,7 +290,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
   // 处理回车键搜索
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isLoading) {
-      searchGames();
+      searchMovies();
     } else if (e.key === 'Escape') {
       onOpenChange(false);
     }
@@ -321,7 +321,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
             <Button 
               variant="outline" 
               className="mt-4" 
-              onClick={() => searchGames(true)}
+              onClick={() => searchMovies(true)}
               disabled={isLoading}
             >
               <RefreshCw className="mr-2 h-4 w-4" />
@@ -392,7 +392,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                 </button>
               )}
             </div>
-            <Button onClick={() => searchGames()} disabled={isLoading || !searchTerm.trim()}>
+            <Button onClick={() => searchMovies()} disabled={isLoading || !searchTerm.trim()}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -411,18 +411,18 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
         <div className="max-h-[40vh] sm:max-h-[300px] md:max-h-[350px] lg:max-h-[400px] overflow-y-auto">
           {searchResults.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              {searchResults.map((game) => (
+              {searchResults.map((movie) => (
                 <div
-                  key={game.id || game.name}
-                  onClick={() => onSelectGame(game)}
+                  key={movie.id || movie.name}
+                  onClick={() => onSelectMovie(movie)}
                   className="cursor-pointer border rounded p-1 sm:p-2 hover:bg-gray-50 transition-colors"
-                  title={`${game.name}`}
+                  title={`${movie.name}`}
                 >
                   <div className="relative w-full h-0 pb-[133.33%] rounded overflow-hidden bg-gray-100">
-                    {game.image ? (
+                    {movie.image ? (
                       <NextImage 
-                        src={game.image} 
-                        alt={game.name} 
+                        src={movie.image} 
+                        alt={movie.name} 
                         fill 
                         className="object-cover"
                         sizes="(max-width: 768px) 40vw, 20vw"
@@ -434,7 +434,7 @@ export function GameSearchDialog({ isOpen, onOpenChange, onSelectGame, onUploadI
                       </div>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm truncate mt-1 sm:mt-2">{game.name}</p>
+                  <p className="text-xs sm:text-sm truncate mt-1 sm:mt-2">{movie.name}</p>
                 </div>
               ))}
             </div>

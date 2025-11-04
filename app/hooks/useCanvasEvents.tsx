@@ -1,15 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { GameCell } from "../types"
+import { MovieCell } from "../types"
 import { CANVAS_CONFIG } from "../constants"
 import { getCellIdFromCoordinates } from "../utils/canvas"
 import { saveToIndexedDB } from "../utils/indexedDB"
 import { getClickArea, cropImageToAspectRatio } from "@/app/utils/canvasHelpers"
 
 interface UseCanvasEventsProps {
-  cells: GameCell[]
-  setCells: React.Dispatch<React.SetStateAction<GameCell[]>>
+  cells: MovieCell[]
+  setCells: React.Dispatch<React.SetStateAction<MovieCell[]>>
   scale: number
   openSearchDialog: (cellId: number) => void
   openTitleEditDialog: (cellId: number) => void
@@ -157,7 +157,7 @@ export function useCanvasEvents({
         const uniqueImageUrl = `${croppedImageUrl}#t=${Date.now()}`;
 
         // 更新单元格数据
-        const updatedCell: GameCell = {
+        const updatedCell: MovieCell = {
           ...cells[cellId],
           image: uniqueImageUrl,
           name: file.name.replace(/\.[^/.]+$/, ""), // 移除文件扩展名作为电影名称
@@ -194,7 +194,7 @@ export function useCanvasEvents({
       // 获取主标题（从localStorage）
       let fileName = "电影生涯个人喜好表.png";
       try {
-        const savedConfig = localStorage.getItem('gameGridGlobalConfig');
+        const savedConfig = localStorage.getItem('movieGridGlobalConfig');
         if (savedConfig) {
           const parsedConfig = JSON.parse(savedConfig);
           if (parsedConfig.mainTitle) {

@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
     : undefined;
 
   return {
-    title: messages.meta?.title ?? 'GameGrid',
-    description: messages.meta?.description ?? 'Create your game preference grid',
+    title: messages.meta?.title ?? 'MovieGrid',
+    description: messages.meta?.description ?? 'Create your movie preference grid',
     keywords,
     robots: {
       index: true,
@@ -42,18 +42,18 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
     },
     openGraph: {
       type: 'website',
-      title: messages.meta?.title ?? 'GameGrid',
-      description: messages.meta?.description ?? 'Create your game preference grid',
+      title: messages.meta?.title ?? 'MovieGrid',
+      description: messages.meta?.description ?? 'Create your movie preference grid',
       url: `/${locale}`,
-      siteName: messages.global?.main_title ?? 'GameGrid',
+      siteName: messages.global?.main_title ?? 'MovieGrid',
       locale,
       alternateLocale: locales.filter((l) => l !== locale),
       images: [`/${locale}/opengraph-image`],
     },
     twitter: {
       card: 'summary_large_image',
-      title: messages.meta?.title ?? 'GameGrid',
-      description: messages.meta?.description ?? 'Create your game preference grid',
+      title: messages.meta?.title ?? 'MovieGrid',
+      description: messages.meta?.description ?? 'Create your movie preference grid',
       images: [`/${locale}/twitter-image`],
     },
     alternates: {

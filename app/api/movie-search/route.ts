@@ -83,7 +83,7 @@ export async function GET(request: Request) {
             ? `${TMDB_IMAGE_BASE}${item.poster_path}` 
             : null;
           
-          const game = {
+          const movie = {
             id: item.id,
             name: item.title || item.original_title,
             // 图片通过服务端代理访问，解决浏览器无法访问 TMDB CDN 的问题
@@ -91,13 +91,13 @@ export async function GET(request: Request) {
           };
 
           controller.enqueue(encoder.encode(JSON.stringify({
-            type: "gameStart",
-            game: { ...game, image: null }
+            type: "movieStart",
+            movie: { ...movie, image: null }
           }) + "\n"));
 
           controller.enqueue(encoder.encode(JSON.stringify({
-            type: "gameComplete",
-            game
+            type: "movieComplete",
+            movie
           }) + "\n"));
         }
 

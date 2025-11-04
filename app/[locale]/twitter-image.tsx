@@ -16,8 +16,8 @@ export default async function Image({
 }) {
   const { locale } = params
   const messages = await getMessages(locale)
-  const title = messages?.meta?.title ?? 'GameGrid'
-  const description = messages?.meta?.description ?? 'Create your personal game preference grid'
+  const title = messages?.meta?.title ?? 'MovieGrid'
+  const description = messages?.meta?.description ?? 'Create your personal movie preference grid'
 
   return new ImageResponse(
     (

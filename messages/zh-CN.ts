@@ -45,7 +45,7 @@ const zhCN = {
   },
   dialog: {
     edit_title: '编辑标题',
-    edit_game_name: '编辑电影名称',
+    edit_movie_name: '编辑电影名称',
     edit_main_title: '编辑主标题',
   },
   common: {

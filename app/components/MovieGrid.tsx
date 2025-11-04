@@ -3,23 +3,23 @@
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useI18n } from "@/lib/i18n/provider"
-import { GameCell, GameSearchResult, GlobalConfig } from "../types"
+import { MovieCell, MovieSearchResult, GlobalConfig } from "../types"
 import { saveToIndexedDB } from "../utils/indexedDB"
-import { GameSearchDialog } from "./GameSearchDialog"
+import { MovieSearchDialog } from "./MovieSearchDialog"
 import { TextEditDialog } from "./TextEditDialog"
 import { useCanvasRenderer } from "../hooks/useCanvasRenderer"
 import { useCanvasEvents } from "../hooks/useCanvasEvents"
 import { useIsMobile } from "../hooks/useIsMobile"
 
-interface GameGridProps {
-  initialCells: GameCell[]
-  onUpdateCells: (cells: GameCell[]) => void
+interface MovieGridProps {
+  initialCells: MovieCell[]
+  onUpdateCells: (cells: MovieCell[]) => void
 }
 
-export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
+export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
   // Canvas相关状态
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [cells, setCells] = useState<GameCell[]>(initialCells)
+  const [cells, setCells] = useState<MovieCell[]>(initialCells)
   
   // 全局配置状态
   const [globalConfig, setGlobalConfig] = useState<GlobalConfig>({
@@ -30,7 +30,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
 
   useEffect(() => {
     // 每个语系独立的默认标题与存储键
-    const storageKey = `gameGridGlobalConfig_${locale}`
+    const storageKey = `movieGridGlobalConfig_${locale}`
     const savedConfig = typeof window !== 'undefined' ? localStorage.getItem(storageKey) : null
     if (savedConfig) {
       try {
@@ -129,7 +129,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
   const handleSaveTitle = (newText: string) => {
     if (selectedCellId === null) return;
 
-    const updatedCell: GameCell = {
+    const updatedCell: MovieCell = {
       ...cells[selectedCellId],
       title: newText,
     };
@@ -137,7 +137,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     setCells(cells.map((cell) => (cell.id === selectedCellId ? updatedCell : cell)));
     // 每个语系单独存储标题映射
     try {
-      const key = `gameGridTitles_${locale}`
+      const key = `movieGridTitles_${locale}`
       const raw = localStorage.getItem(key)
       const map = raw ? (JSON.parse(raw) as Record<string, string>) : {}
       map[String(selectedCellId)] = newText
@@ -150,7 +150,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
   const handleSaveName = (newText: string) => {
     if (selectedCellId === null) return;
 
-    const updatedCell: GameCell = {
+    const updatedCell: MovieCell = {
       ...cells[selectedCellId],
       name: newText,
     };
@@ -171,7 +171,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     setIsMainTitleDialogOpen(false);
     
     // 保存到localStorage
-    const storageKey = `gameGridGlobalConfig_${locale}`
+    const storageKey = `movieGridGlobalConfig_${locale}`
     localStorage.setItem(storageKey, JSON.stringify(updatedConfig));
     
     // // 强制重绘画布
@@ -190,32 +190,32 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
   // 加载全局配置
   // 旧版存储迁移（如存在）
   useEffect(() => {
-    const legacy = typeof window !== 'undefined' ? localStorage.getItem('gameGridGlobalConfig') : null
+    const legacy = typeof window !== 'undefined' ? localStorage.getItem('movieGridGlobalConfig') : null
     if (legacy) {
       try {
         const parsed = JSON.parse(legacy)
-        const storageKey = `gameGridGlobalConfig_${locale}`
+        const storageKey = `movieGridGlobalConfig_${locale}`
         localStorage.setItem(storageKey, JSON.stringify(parsed))
-        localStorage.removeItem('gameGridGlobalConfig')
+        localStorage.removeItem('movieGridGlobalConfig')
       } catch {}
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale])
 
   // 选择电影
-  const handleSelectGame = async (game: GameSearchResult) => {
+  const handleSelectMovie = async (movie: MovieSearchResult) => {
     if (selectedCellId === null) return;
     
     // 如果图片URL不是以 /api/proxy 开头，才使用代理包裹
-    const proxyImageUrl = game.image.startsWith('/api/proxy') 
-    ? game.image 
-    : `/api/proxy?url=${encodeURIComponent(game.image)}`;
+    const proxyImageUrl = movie.image.startsWith('/api/proxy') 
+    ? movie.image 
+    : `/api/proxy?url=${encodeURIComponent(movie.image)}`;
 
     try {
       // 先更新UI显示，让用户知道正在处理
-      const tempUpdatedCell: GameCell = {
+      const tempUpdatedCell: MovieCell = {
         ...cells[selectedCellId],
-        name: game.name,
+        name: movie.name,
         image: proxyImageUrl, // 临时使用代理URL
         imageObj: null,
       };
@@ -273,10 +273,10 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
       URL.revokeObjectURL(img.src);
       
       // 使用base64格式的URL更新cell
-      const finalUpdatedCell: GameCell = {
+      const finalUpdatedCell: MovieCell = {
         ...cells[selectedCellId],
         image: base64Url,
-        name: game.name,
+        name: movie.name,
         imageObj: null,
       };
       
@@ -287,10 +287,10 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     } catch (error) {
       console.error("转换图片为base64时出错:", error);
       // 如果转换失败，使用原始代理URL作为fallback
-      const fallbackCell: GameCell = {
+      const fallbackCell: MovieCell = {
         ...cells[selectedCellId],
         image: proxyImageUrl,
-        name: game.name,
+        name: movie.name,
         imageObj: null,
       };
       
@@ -345,7 +345,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
       const base64Image = canvas.toDataURL('image/jpeg', 0.8);
 
       // 更新单元格
-      const updatedCell: GameCell = {
+      const updatedCell: MovieCell = {
         ...cells[selectedCellId],
         image: base64Image,
         imageObj: null,
@@ -400,10 +400,10 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
       </Button>
 
       {/* 电影搜索对话框 */}
-      <GameSearchDialog 
+      <MovieSearchDialog 
         isOpen={isSearchDialogOpen} 
         onOpenChange={setIsSearchDialogOpen} 
-        onSelectGame={handleSelectGame}
+        onSelectMovie={handleSelectMovie}
         onUploadImage={handleImageUpload}
       />
       
@@ -420,7 +420,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
       <TextEditDialog
         isOpen={isNameDialogOpen}
         onOpenChange={setIsNameDialogOpen}
-        title={String(t('dialog.edit_game_name'))}
+        title={String(t('dialog.edit_movie_name'))}
         defaultValue={editingText}
         onSave={handleSaveName}
       />

@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useI18n } from '@/lib/i18n/provider';
-import { GameGrid } from '../components/GameGrid';
-import { GameCell } from '../types';
+import { MovieGrid } from '../components/MovieGrid';
+import { MovieCell } from '../types';
 import { loadCellsFromDB } from '../utils/indexedDB';
 
 export default function Home() {
   const { t, locale } = useI18n();
 
-  const [cells, setCells] = useState<GameCell[]>(
+  const [cells, setCells] = useState<MovieCell[]>(
     (t('cell_titles') as string[]).map((title, index) => ({
       id: index,
       title,
@@ -31,14 +31,15 @@ export default function Home() {
           savedCells.forEach((savedCell) => {
             const idx = newCells.findIndex((cell) => cell.id === savedCell.id);
             if (idx !== -1) {
-              const { title: _ignoredTitle, ...rest } = savedCell as any;
-              newCells[idx] = { ...newCells[idx], ...rest } as GameCell;
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const { title: _ignoredTitle, ...rest } = savedCell as MovieCell;
+              newCells[idx] = { ...newCells[idx], ...rest } as MovieCell;
             }
           });
 
           // 应用该语系下的自定义标题覆盖
           if (typeof window !== 'undefined') {
-            const key = `gameGridTitles_${locale}`;
+            const key = `movieGridTitles_${locale}`;
             const json = localStorage.getItem(key);
             if (json) {
               try {
@@ -58,13 +59,13 @@ export default function Home() {
     loadData();
   }, [locale]);
 
-  const handleUpdateCells = (newCells: GameCell[]) => setCells(newCells);
+  const handleUpdateCells = (newCells: MovieCell[]) => setCells(newCells);
 
   return (
     <main className="min-h-screen flex flex-col items-center py-4 relative">
 
       {!loading && (
-        <GameGrid initialCells={cells} onUpdateCells={handleUpdateCells} />
+        <MovieGrid initialCells={cells} onUpdateCells={handleUpdateCells} />
       )}
 
       <div className="text-sm text-gray-500 mt-6 text-center px-4">
@@ -114,14 +115,14 @@ export default function Home() {
           '@type': 'WebApplication',
           name:
             (typeof t('global.main_title') === 'string' && t('global.main_title')) ||
-            'Game Preference Grid',
+            'Movie Preference Grid',
           url,
           applicationCategory: 'EntertainmentApplication',
           operatingSystem: 'Web',
           inLanguage: locale,
           description:
             (typeof t('meta.description') === 'string' && t('meta.description')) ||
-            'Create your personal game preference grid',
+            'Create your personal movie preference grid',
         };
         if (locale.startsWith('zh')) {
           webAppLd.alternateName = [

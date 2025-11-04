@@ -3,24 +3,24 @@
 import { useEffect, useRef, useState } from "react"
 import { CANVAS_CONFIG } from "../constants"
 import { useCanvasEvents } from "../hooks/useCanvasEvents"
-import { GameCell } from "../types"
+import { MovieCell } from "../types"
 import { drawCanvasContent } from "../utils/canvas"
 
-interface GameCanvasProps {
-  cells: GameCell[]
-  setCells: React.Dispatch<React.SetStateAction<GameCell[]>>
+interface MovieCanvasProps {
+  cells: MovieCell[]
+  setCells: React.Dispatch<React.SetStateAction<MovieCell[]>>
   openSearchDialog: (cellId: number) => void
   openTitleEditDialog: (cellId: number) => void
   openNameEditDialog: (cellId: number) => void
 }
 
-export function GameCanvas({
+export function MovieCanvas({
   cells,
   setCells,
   openSearchDialog,
   openTitleEditDialog,
   openNameEditDialog,
-}: GameCanvasProps) {
+}: MovieCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [scale, setScale] = useState(1)
   // 添加一个重绘触发器，用于在需要时强制重绘
