@@ -39,7 +39,9 @@ export async function GET(request: Request) {
 
     const headers = new Headers();
     headers.set("Content-Type", contentType);
-    headers.set("Cache-Control", "public, max-age=31536000");
+    headers.set("Cache-Control", "public, max-age=31536000, immutable");
+    headers.set("Vary", "Accept-Encoding");
+    headers.set("CDN-Cache-Control", "public, max-age=31536000");
 
     return new NextResponse(arrayBuffer, {
       headers,
