@@ -9,6 +9,7 @@ import { GameSearchDialog } from "./GameSearchDialog"
 import { TextEditDialog } from "./TextEditDialog"
 import { useCanvasRenderer } from "../hooks/useCanvasRenderer"
 import { useCanvasEvents } from "../hooks/useCanvasEvents"
+import { useIsMobile } from "../hooks/useIsMobile"
 
 interface GameGridProps {
   initialCells: GameCell[]
@@ -25,6 +26,7 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
     mainTitle: ""
   })
   const { t, locale } = useI18n();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // 每个语系独立的默认标题与存储键
@@ -379,7 +381,15 @@ export function GameGrid({ initialCells, onUpdateCells }: GameGridProps) {
       />
 
       <p className="mt-4 px-4 text-sm text-gray-500 break-words">
-        {t('ui.tip_edit')}
+        {isMobile 
+          ? (() => {
+              const text = t('ui.tip_edit');
+              // 支持中文分号和英文句号分隔
+              const parts = text.includes('；') ? text.split('；') : text.split('. ');
+              return parts[0] + (text.includes('；') ? '。' : '.');
+            })()
+          : t('ui.tip_edit')
+        }
       </p>
 
       <Button 

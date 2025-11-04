@@ -55,7 +55,7 @@ const zhCN = {
   },
   footer: {
     made_with: 'made with Copilot & Codex',
-    if_useful_star: '如果觉得对你有用请点 →',
+    if_useful_star: '如果觉得对你有用请点Star →',
     powered_by: 'Powered by TMDB',
     friendship_link: '友情链接：',
     friendship_link_site: '游戏生涯个人喜好表',

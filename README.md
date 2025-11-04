@@ -39,7 +39,7 @@ npm run dev
 3. 在项目根目录创建 `.env.local` 文件，添加：
    ```bash
    TMDB_API_KEY=你的API密钥
-   # 如果需要代理访问 TMDB（中国大陆用户）
+   # 国内本地访问 TMDB 需要配置代理 TMDB，下面端口填代理端口号
    HTTPS_PROXY=http://127.0.0.1:7897
    ```
 
@@ -50,12 +50,13 @@ npm run dev
 1. Fork 本仓库到你的 GitHub 账号
 2. 在 [Vercel](https://vercel.com) 导入项目
 3. （可选）在项目设置中添加环境变量：
+   - `TMDB_API_KEY`
    - `NEXT_PUBLIC_GA_ID`（可选，用于 Google Analytics 追踪）
 4. 部署完成
 
 ### 其他平台部署
 
-本项目无需配置 API 密钥即可运行。如需启用 Google Analytics 追踪，可在部署平台的环境变量配置中添加 `NEXT_PUBLIC_GA_ID`。
+确保在部署平台的环境变量配置中添加上述所有必需的环境变量。Google Analytics ID 为可选配置，不配置则不会启用追踪功能。
 
 ## 致谢
 

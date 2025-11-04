@@ -61,7 +61,7 @@ export default function Home() {
   const handleUpdateCells = (newCells: GameCell[]) => setCells(newCells);
 
   return (
-    <main className="min-h-screen flex flex-col items-center py-8 relative">
+    <main className="min-h-screen flex flex-col items-center py-4 relative">
 
       {!loading && (
         <GameGrid initialCells={cells} onUpdateCells={handleUpdateCells} />
