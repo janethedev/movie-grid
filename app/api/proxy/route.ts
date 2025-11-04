@@ -9,7 +9,13 @@ export async function GET(request: Request) {
   const imageUrl = searchParams.get("url");
 
   if (!imageUrl) {
-    return new NextResponse("Missing URL parameter", { status: 400 });
+    return new NextResponse("Missing URL parameter", { 
+      status: 400,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'CDN-Cache-Control': 'no-store'
+      }
+    });
   }
 
   try {
@@ -31,6 +37,13 @@ export async function GET(request: Request) {
     if (!response.ok) {
       return new NextResponse(`Error fetching image: ${response.statusText}`, {
         status: response.status,
+        headers: {
+          // 明确禁止缓存错误响应（任何层级都不缓存）
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+          'CDN-Cache-Control': 'no-store',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       });
     }
 
@@ -50,6 +63,13 @@ export async function GET(request: Request) {
     console.error("获取图片失败:", imageUrl, error);
     return new NextResponse(`Failed to fetch image: ${error}`, {
       status: 500,
+      headers: {
+        // 明确禁止缓存服务器错误
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'CDN-Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
     });
   }
 }
