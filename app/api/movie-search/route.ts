@@ -6,6 +6,13 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 
+// 检测文本语言（简单实现：检测是否包含中文字符）
+function detectLanguage(text: string): string {
+  // 中文字符范围（包括常用汉字、标点等）
+  const chineseRegex = /[\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/;
+  return chineseRegex.test(text) ? 'zh-CN' : 'en-US';
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q");
@@ -28,7 +35,9 @@ export async function GET(request: Request) {
           message: "正在搜索电影..." 
         }) + "\n"));
 
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=zh-CN&page=1`;
+        // 根据搜索词自动检测语言
+        const language = detectLanguage(query);
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=${language}&page=1`;
 
         // 配置请求选项
         const fetchOptions: any = {
