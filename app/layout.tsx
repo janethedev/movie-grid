@@ -36,11 +36,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     themeColor: '#ffffff',
     colorScheme: 'light',
-    manifest: '/manifest.json',
-    icons: {
-      icon: '/favicon.ico',
-      apple: '/apple-touch-icon.png',
-    },
     other: {
       'color-scheme': 'light only',
     },
