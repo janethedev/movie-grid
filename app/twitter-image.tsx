@@ -1,23 +1,19 @@
-import { ImageResponse } from 'next/og'
-import type { Locale } from '@/lib/i18n/locales'
-import { getMessages } from '@/lib/i18n/getMessages'
+import { ImageResponse } from 'next/og';
+import { getMessages } from '@/lib/i18n/getMessages';
+import { getLocale } from '@/lib/i18n/getLocale';
 
-export const runtime = 'edge'
+export const runtime = 'edge';
 export const size = {
   width: 1200,
   height: 630,
-}
-export const contentType = 'image/png'
+};
+export const contentType = 'image/png';
 
-export default async function Image({
-  params,
-}: {
-  params: { locale: Locale }
-}) {
-  const { locale } = params
-  const messages = await getMessages(locale)
-  const title = messages?.meta?.title ?? 'MovieGrid'
-  const description = messages?.meta?.description ?? 'Create your movie preference grid'
+export default async function Image() {
+  const locale = await getLocale();
+  const messages = await getMessages(locale);
+  const title = messages?.meta?.title ?? 'MovieGrid';
+  const description = messages?.meta?.description ?? 'Create your personal movie preference grid';
 
   return new ImageResponse(
     (
@@ -31,9 +27,9 @@ export default async function Image({
           padding: 64,
           color: '#0b1220',
           background:
-            'linear-gradient(135deg, #e0f2fe 0%, #e9d5ff 40%, #dcfce7 100%)',
+            'linear-gradient(135deg, #fef3c7 0%, #e9d5ff 50%, #cffafe 100%)',
         }}
-     >
+      >
         <div
           style={{
             fontSize: 56,
@@ -57,13 +53,13 @@ export default async function Image({
           }}
         >
           <span>moviegrid.dsdev.ink</span>
-          <span style={{ opacity: 0.75 }}>{locale}</span>
+          <span style={{ opacity: 0.75 }}>Twitter • {locale}</span>
         </div>
       </div>
     ),
     {
       ...size,
     }
-  )
+  );
 }
 

@@ -3,7 +3,7 @@
 本指南帮助贡献者与自动化代理在 MovieGrid（Next.js）项目中保持一致协作。
 
 ## 项目结构与模块组织
-- `app/` App Router 入口、布局、页面与 API 路由（`app/api/<name>/route.ts`）。包含 `app/[locale]/`（i18n）、以及 `app/utils`、`app/hooks`、`app/components` 等功能域代码。
+- `app/` App Router 入口、布局、页面与 API 路由（`app/api/<name>/route.ts`）。包含 `app/utils`、`app/hooks`、`app/components` 等功能域代码。国际化通过 middleware 和 cookies 处理，无需 URL 路径段。
 - `components/` 共享 UI 组件；基础组件位于 `components/ui/`（如 `button.tsx`、`dialog.tsx`）。
 - `lib/` 跨领域工具（如 `lib/utils.ts` 提供用于合并 Tailwind 类名的 `cn`）。
 - `messages/` 预留为本地化资源；`screenshot/` 存放示例图片。

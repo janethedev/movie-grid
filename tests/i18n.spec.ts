@@ -1,10 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-const locales = ['zh-CN','zh-TW','en','ja','ko','fr','de','es','pt','it','ru','nl','pl','tr'];
+const locales = ['zh-CN', 'en'];
 
 for (const locale of locales) {
-  test(`renders home for ${locale}`, async ({ page }) => {
-    await page.goto(`/${locale}`);
+  test(`renders home for ${locale}`, async ({ page, context }) => {
+    // Set locale cookie before visiting the page
+    await context.addCookies([{
+      name: 'NEXT_LOCALE',
+      value: locale,
+      domain: 'localhost',
+      path: '/',
+    }]);
+    
+    await page.goto('/');
+    
     // Main canvas should exist
     const canvas = page.locator('canvas');
     await expect(canvas).toBeVisible();

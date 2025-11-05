@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { locales, defaultLocale, normalizeLocale } from './lib/i18n/locales';
+import { locales, normalizeLocale } from './lib/i18n/locales';
 
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 
@@ -19,22 +19,21 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If path already includes a supported locale, continue
+  // Handle old locale paths (e.g., /zh-CN, /en) - redirect to root
   const pathLocale = pathname.split('/')[1];
-  console.log('[Middleware] Raw pathLocale:', pathLocale);
-  console.log('[Middleware] Is valid locale?', locales.includes(pathLocale as any));
-  
   if (locales.includes(pathLocale as any)) {
-    return NextResponse.next();
-  }
-  // Try to normalize the pathLocale in case it has extra characters
-  const normalizedPathLocale = normalizeLocale(pathLocale);
-  console.log('[Middleware] Normalized pathLocale:', normalizedPathLocale);
-  if (locales.includes(normalizedPathLocale)) {
-    console.log('[Middleware] Found valid locale after normalization, redirecting to clean path');
-    // Redirect to clean locale path
-    const cleanPath = pathname.replace(`/${pathLocale}`, `/${normalizedPathLocale}`);
-    return NextResponse.redirect(new URL(cleanPath, request.url), 308);
+    const url = request.nextUrl.clone();
+    // Extract the locale and remove it from the path
+    const restPath = pathname.replace(`/${pathLocale}`, '') || '/';
+    url.pathname = restPath;
+    
+    // Set a temporary redirect (307) instead of permanent (308) to avoid browser caching
+    const response = NextResponse.redirect(url, 307);
+    
+    // Set the detected locale in cookie
+    response.cookies.set(LOCALE_COOKIE, pathLocale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+    
+    return response;
   }
 
   // Determine locale from cookie or Accept-Language
@@ -45,11 +44,18 @@ export function middleware(request: NextRequest) {
     finalLocale = normalizeLocale(lang);
   }
 
-  const target = pathname === '/' ? `/${finalLocale}` : `/${finalLocale}${pathname}`;
-  const response = NextResponse.redirect(new URL(target, request.url), 308);
+  // Pass the locale via header and cookie
+  const response = NextResponse.next();
+  
+  // Set custom header for server components to read
+  response.headers.set('x-locale', finalLocale);
+  
   // Signal language-based variations for caches and crawlers
   response.headers.set('Vary', 'Accept-Language');
+  
+  // Set/update the locale cookie
   response.cookies.set(LOCALE_COOKIE, finalLocale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+  
   return response;
 }
 
