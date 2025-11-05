@@ -1,5 +1,6 @@
 module.exports = {
-  darkMode: ["class"],
+  // 禁用深色模式，统一使用浅色主题
+  darkMode: false,
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",

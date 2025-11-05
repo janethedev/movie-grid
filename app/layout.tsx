@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://moviegrid.dsdev.ink"),
   title: "电影生涯个人喜好表",
   description: "创建你的电影生涯个人喜好表",
+  themeColor: '#ffffff',
+  colorScheme: 'light',
+  other: {
+    'color-scheme': 'light only',
+  },
   verification: {
     google: "swtOMxSQC6Dfn-w4YtMQ3OFH4SZz00Blcd6FI0qMgJc",
   },
@@ -24,11 +29,12 @@ export default function RootLayout({
 }>) {
   // Root is kept minimal; middleware redirects to /<locale> paths
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className="light" style={{ colorScheme: 'light only' }}>
       <head>
+        <meta name="color-scheme" content="light only" />
         <GoogleAnalytics />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} style={{ colorScheme: 'light only' }}>
         <ApiWarmer />
         {children}
       </body>

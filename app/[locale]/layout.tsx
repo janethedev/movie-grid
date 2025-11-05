@@ -40,6 +40,11 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
       index: true,
       follow: true,
     },
+    themeColor: '#ffffff',
+    colorScheme: 'light',
+    other: {
+      'color-scheme': 'light only',
+    },
     openGraph: {
       type: 'website',
       title: messages.meta?.title ?? 'MovieGrid',
@@ -75,8 +80,11 @@ export default async function LocaleLayout({
 }) {
   const messages = await getMessages(params.locale);
   return (
-    <html lang={params.locale}>
-      <body className={inter.className}>
+    <html lang={params.locale} className="light" style={{ colorScheme: 'light only' }}>
+      <head>
+        <meta name="color-scheme" content="light only" />
+      </head>
+      <body className={inter.className} style={{ colorScheme: 'light only' }}>
         <ApiWarmer />
         <I18nProvider locale={params.locale} messages={messages}>
           {children}
