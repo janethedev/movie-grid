@@ -66,6 +66,11 @@ export default function Home() {
     <main className="min-h-screen flex flex-col items-center py-8 relative">
       <LanguageSwitcher />
 
+      {/* SEO 优化：语义化标题 */}
+      <h1 className="sr-only">
+        {t('global.main_title')}
+      </h1>
+
       {!loading && (
         <MovieGrid initialCells={cells} onUpdateCells={handleUpdateCells} />
       )}

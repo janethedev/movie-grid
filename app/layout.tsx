@@ -23,16 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   languageAlternates['x-default'] = '/';
 
-  const keywords = locale.startsWith('zh')
-    ? [
-        '电影生涯喜好表',
-        '电影生涯个人喜好表',
-        '电影喜好表',
-        '电影九宫格',
-        '电影喜好九宫格',
-        '喜好表生成器',
-      ]
-    : undefined;
+  const keywords = messages.meta?.keywords as string[] | undefined;
 
   return {
     metadataBase: new URL('https://moviegrid.dsdev.ink'),
@@ -45,6 +36,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     themeColor: '#ffffff',
     colorScheme: 'light',
+    manifest: '/manifest.json',
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
+    },
     other: {
       'color-scheme': 'light only',
     },
