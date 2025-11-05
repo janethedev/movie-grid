@@ -40,7 +40,7 @@ const zhCN = {
   ],
   ui: {
     tip_edit:
-      '提示：点击顶部标题、格子标题或电影名称可以编辑；也可直接拖拽图片到格子中。',
+      '提示：点击顶部标题、格子标题或电影名称即可编辑；也可直接拖拽图片到格子中。',
     generate: '生成{title}！',
   },
   dialog: {
@@ -66,14 +66,18 @@ const zhCN = {
   },
   search: {
     title: '搜索电影',
+    title_person: '搜索人物',
     source: '搜索源：',
     placeholder: '输入电影名称开始搜索',
+    placeholder_person: '输入人物名称',
     searching: '搜索中',
     search: '搜索',
     retry: '重试',
     no_results: '未找到相关电影',
+    no_results_person: '未找到相关人物',
     try_keywords: '请尝试不同的关键词',
     idle_hint: '输入电影名称开始搜索',
+    idle_hint_person: '输入人物名称开始搜索',
     results_count: '找到 {count} 个结果',
     clear: '清除搜索',
     upload_image: '上传图片',

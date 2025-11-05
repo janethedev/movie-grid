@@ -14,6 +14,7 @@ interface MovieSearchDialogProps {
   onOpenChange: (open: boolean) => void
   onSelectMovie: (movie: MovieSearchResult) => void
   onUploadImage?: (file: File) => void
+  cellId?: number | null  // 添加 cellId 以判断搜索类型
 }
 
 /**
@@ -27,14 +28,17 @@ type SearchStatus = {
 /**
  * 电影搜索对话框组件
  */
-export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploadImage }: MovieSearchDialogProps) {
+export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploadImage, cellId }: MovieSearchDialogProps) {
   const { t } = useI18n();
+  
+  // 判断是否使用 person 搜索（索引 1, 2, 3 对应"最佳导演"、"最爱演员"、"最爱导演"）
+  const isPersonSearch = cellId !== null && cellId !== undefined && [1, 2, 3].includes(cellId);
   const [searchTerm, setSearchTerm] = useState("")
   const [searchResults, setSearchResults] = useState<MovieSearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchStatus, setSearchStatus] = useState<SearchStatus>({ 
     state: 'idle', 
-    message: String(t('search.idle_hint')) 
+    message: isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint')) 
   })
   // 添加状态来跟踪总结果数量
   const [totalResults, setTotalResults] = useState<number>(0)
@@ -76,7 +80,10 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
     setSearchTerm('');
     setSearchResults([]);
     setTotalResults(0);
-    setSearchStatus({ state: 'idle', message: "输入电影名称开始搜索" });
+    setSearchStatus({ 
+      state: 'idle', 
+      message: isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint'))
+    });
     lastSearchTermRef.current = '';
   };
 
@@ -127,8 +134,10 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
     }, 3000);
 
     try {
-      // 使用电影搜索 API 端点（TMDB）
-      const apiEndpoint = `/api/movie-search?q=${encodeURIComponent(term)}`;
+      // 根据格子类型选择 API 端点
+      const apiEndpoint = isPersonSearch 
+        ? `/api/person-search?q=${encodeURIComponent(term)}`
+        : `/api/movie-search?q=${encodeURIComponent(term)}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -235,7 +244,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
                   } else {
                     setSearchStatus({ 
                       state: 'no-results', 
-                      message: data.message || "未找到相关电影" 
+                      message: data.message || (isPersonSearch ? String(t('search.no_results_person')) : String(t('search.no_results')))
                     });
                   }
                   break;
@@ -252,7 +261,10 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
         if (movies.length > 0) {
           setSearchStatus({ state: 'success', message: '' });
         } else {
-          setSearchStatus({ state: 'no-results', message: "未找到相关电影" });
+          setSearchStatus({ 
+            state: 'no-results', 
+            message: isPersonSearch ? String(t('search.no_results_person')) : String(t('search.no_results'))
+          });
         }
       }
 
@@ -368,7 +380,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="w-[95vw] max-h-[90vh] overflow-y-auto sm:max-w-md md:max-w-lg lg:max-w-xl">
         <DialogHeader>
-          <DialogTitle>{t('search.title')}</DialogTitle>
+          <DialogTitle>{isPersonSearch ? t('search.title_person') : t('search.title')}</DialogTitle>
         </DialogHeader>
         
         <div className="mb-4">
@@ -377,7 +389,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
               <Input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={String(t('search.placeholder'))}
+                placeholder={isPersonSearch ? String(t('search.placeholder_person')) : String(t('search.placeholder'))}
                 onKeyDown={handleKeyDown}
                 disabled={isLoading}
                 className="pr-8"

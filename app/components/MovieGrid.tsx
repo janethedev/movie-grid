@@ -405,6 +405,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
         onOpenChange={setIsSearchDialogOpen} 
         onSelectMovie={handleSelectMovie}
         onUploadImage={handleImageUpload}
+        cellId={selectedCellId}
       />
       
       {/* 标题编辑对话框 */}
