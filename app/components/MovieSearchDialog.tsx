@@ -54,7 +54,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
     if (isOpen) {
       // 仅在打开时重置状态，不重置搜索词和结果，以便用户可以继续之前的搜索
       setIsLoading(false);
-      setSearchStatus({ state: searchResults.length > 0 ? 'success' : 'idle', message: searchResults.length > 0 ? '' : String(t('search.idle_hint')) });
+      setSearchStatus({ state: searchResults.length > 0 ? 'success' : 'idle', message: searchResults.length > 0 ? '' : (isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint'))) });
     } else {
       // 关闭时取消正在进行的搜索请求
       if (abortControllerRef.current) {
@@ -62,7 +62,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
         abortControllerRef.current = null;
       }
     }
-  }, [isOpen, searchResults.length]);
+  }, [isOpen, searchResults.length, isPersonSearch, t]);
 
   // 清空搜索结果和状态
   const handleClearSearch = () => {
@@ -94,7 +94,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
     
     // 检查搜索词是否为空
     if (!term) {
-      setSearchStatus({ state: 'idle', message: String(t('search.idle_hint')) });
+      setSearchStatus({ state: 'idle', message: isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint')) });
       return;
     }
     
@@ -315,7 +315,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
         return (
           <div className="flex flex-col items-center justify-center py-10 text-gray-500">
             <Search className="h-12 w-12 mb-2 opacity-30" />
-            <p>{searchStatus.message || String(t('search.idle_hint'))}</p>
+            <p>{searchStatus.message || (isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint')))}</p>
           </div>
         );
       case 'searching':
