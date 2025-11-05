@@ -2,7 +2,7 @@ export type Locale = 'zh-CN' | 'en';
 
 export const locales: Locale[] = ['zh-CN', 'en'];
 
-export const defaultLocale: Locale = 'zh-CN';
+export const defaultLocale: Locale = 'en';
 
 // Map common language tags to our supported locales
 const langMap: Record<string, Locale> = {
