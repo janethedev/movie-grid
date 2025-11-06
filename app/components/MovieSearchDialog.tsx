@@ -392,7 +392,8 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
                 placeholder={isPersonSearch ? String(t('search.placeholder_person')) : String(t('search.placeholder'))}
                 onKeyDown={handleKeyDown}
                 disabled={isLoading}
-                className="pr-8"
+                className="pr-8 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-ms-clear]:hidden"
+                type="text"
               />
               {searchTerm && (
                 <button 
