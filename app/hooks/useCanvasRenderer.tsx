@@ -241,14 +241,22 @@ export function useCanvasRenderer({
 
       // 更新Canvas尺寸
       const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
       
-      // 保持Canvas的实际像素数
-      canvas.width = CANVAS_CONFIG.width;
-      canvas.height = CANVAS_CONFIG.height;
+      // 获取设备像素比，用于高DPI屏幕（Retina等）
+      const dpr = window.devicePixelRatio || 1;
       
-      // 设置显示尺寸
+      // 设置Canvas的实际像素数（考虑设备像素比）
+      canvas.width = CANVAS_CONFIG.width * dpr;
+      canvas.height = CANVAS_CONFIG.height * dpr;
+      
+      // 设置显示尺寸（CSS像素）
       canvas.style.width = `${CANVAS_CONFIG.width * newScale}px`;
       canvas.style.height = `${CANVAS_CONFIG.height * newScale}px`;
+      
+      // 缩放绘图上下文以匹配设备像素比
+      ctx.scale(dpr, dpr);
 
       // 使用 requestAnimationFrame 确保在下一帧重绘
       requestAnimationFrame(() => {

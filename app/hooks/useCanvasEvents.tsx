@@ -194,8 +194,9 @@ export function useCanvasEvents({
       // 创建高分辨率的临时canvas
       const exportScale = 3; // 3倍分辨率（3600x4830），提供更高清晰度
       const exportCanvas = document.createElement('canvas');
-      const exportWidth = canvas.width * exportScale;
-      const exportHeight = canvas.height * exportScale;
+      // 使用原始配置尺寸，而不是canvas的实际像素尺寸（避免dpr影响）
+      const exportWidth = CANVAS_CONFIG.width * exportScale;
+      const exportHeight = CANVAS_CONFIG.height * exportScale;
       
       exportCanvas.width = exportWidth;
       exportCanvas.height = exportHeight;
