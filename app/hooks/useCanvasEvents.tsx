@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MovieCell } from "../types"
+import { MovieCell, GlobalConfig } from "../types"
 import { CANVAS_CONFIG } from "../constants"
 import { getCellIdFromCoordinates } from "../utils/canvas"
 import { saveToIndexedDB } from "../utils/indexedDB"
@@ -16,6 +16,8 @@ interface UseCanvasEventsProps {
   openNameEditDialog: (cellId: number) => void
   openMainTitleEditDialog: () => void
   forceCanvasRedraw?: () => void // 添加强制Canvas重绘的函数
+  drawCanvasWithScale?: (canvas: HTMLCanvasElement, cells: MovieCell[], config: GlobalConfig, scaleFactor: number) => void
+  globalConfig: GlobalConfig
 }
 
 export function useCanvasEvents({
@@ -27,6 +29,8 @@ export function useCanvasEvents({
   openNameEditDialog,
   openMainTitleEditDialog,
   forceCanvasRedraw,
+  drawCanvasWithScale,
+  globalConfig,
 }: UseCanvasEventsProps) {
   const [dragOverCellId, setDragOverCellId] = useState<number | null>(null)
 
@@ -181,25 +185,51 @@ export function useCanvasEvents({
     }
   }
 
-  // 生成图片
+  // 生成高分辨率图片
   const generateImage = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || !drawCanvasWithScale) return
 
     try {
-      // 在某些浏览器中，如果内容包含跨域资源且未正确设置 CORS，
-      // 调用 toDataURL 会抛出安全错误。使用 try-catch 处理。
-      const dataUrl = canvas.toDataURL("image/png")
+      // 创建高分辨率的临时canvas
+      const exportScale = 3; // 3倍分辨率（3600x4830），提供更高清晰度
+      const exportCanvas = document.createElement('canvas');
+      const exportWidth = canvas.width * exportScale;
+      const exportHeight = canvas.height * exportScale;
+      
+      exportCanvas.width = exportWidth;
+      exportCanvas.height = exportHeight;
+      
+      // 使用高分辨率重新绘制所有内容
+      drawCanvasWithScale(exportCanvas, cells, globalConfig, exportScale);
 
-      // 获取主标题（从localStorage）
-      let fileName = "电影生涯个人喜好表.png";
-      try {
-        const savedConfig = localStorage.getItem('movieGridGlobalConfig');
-        if (savedConfig) {
-          const parsedConfig = JSON.parse(savedConfig);
-          if (parsedConfig.mainTitle) {
-            fileName = `${parsedConfig.mainTitle}.png`;
+      // 尝试不同的质量级别，确保文件小于5MB
+      const maxFileSize = 5 * 1024 * 1024; // 5MB
+      let quality = 0.92; // 从较高质量开始
+      let dataUrl: string;
+      let fileSize: number;
+
+      do {
+        dataUrl = exportCanvas.toDataURL("image/jpeg", quality);
+        // 估算文件大小（base64编码大约增加33%）
+        fileSize = Math.ceil((dataUrl.length - 'data:image/jpeg;base64,'.length) * 0.75);
+        
+        if (fileSize > maxFileSize) {
+          quality -= 0.05; // 降低质量
+          if (quality < 0.5) {
+            console.warn("无法在5MB内生成图片，使用最低质量");
+            break;
           }
+        }
+      } while (fileSize > maxFileSize && quality >= 0.5);
+
+      console.log(`导出图片: ${exportWidth}x${exportHeight}, 质量: ${(quality * 100).toFixed(0)}%, 大小: ${(fileSize / 1024 / 1024).toFixed(2)}MB`);
+
+      // 获取主标题作为文件名
+      let fileName = "电影生涯个人喜好表.jpg";
+      try {
+        if (globalConfig?.mainTitle) {
+          fileName = `${globalConfig.mainTitle}.jpg`;
         }
       } catch (error) {
         console.error("获取主标题失败:", error);
@@ -211,7 +241,7 @@ export function useCanvasEvents({
       link.href = dataUrl
       link.click()
 
-      console.log("图片已生成并下载");
+      console.log("高分辨率图片已生成并下载");
     } catch (error) {
       console.error("生成图片失败:", error)
     }

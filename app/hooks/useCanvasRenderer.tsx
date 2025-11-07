@@ -22,95 +22,107 @@ export function useCanvasRenderer({
 }: UseCanvasRendererProps) {
   const [scale, setScale] = useState(1)
 
-  // 绘制Canvas
-  const drawCanvas = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext("2d")
+  // 通用的绘制函数，支持高分辨率导出
+  const drawCanvasWithScale = (
+    targetCanvas: HTMLCanvasElement, 
+    targetCells: MovieCell[], 
+    config: GlobalConfig,
+    scaleFactor: number = 1
+  ) => {
+    const ctx = targetCanvas.getContext("2d")
     if (!ctx) return
+
+    // 应用缩放因子
+    const width = CANVAS_CONFIG.width * scaleFactor
+    const height = CANVAS_CONFIG.height * scaleFactor
+    const padding = CANVAS_CONFIG.padding * scaleFactor
+    const titleHeight = CANVAS_CONFIG.titleHeight * scaleFactor
+    const titleBottomMargin = (CANVAS_CONFIG.titleBottomMargin || 0) * scaleFactor
+    const cellPadding = CANVAS_CONFIG.cellPadding * scaleFactor
+    const cellBorderWidth = CANVAS_CONFIG.cellBorderWidth * scaleFactor
+    const cellBorderRadius = CANVAS_CONFIG.cellBorderRadius * scaleFactor
 
     try {
       // 清空画布
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height)
 
       // 绘制白色背景
       ctx.fillStyle = "white"
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillRect(0, 0, targetCanvas.width, targetCanvas.height)
 
       // 绘制标题（自适应缩放过长文本）
       ctx.fillStyle = "black"
-      const baseFontSize = CANVAS_CONFIG.titleFontSize
+      const baseFontSize = CANVAS_CONFIG.titleFontSize * scaleFactor
       ctx.font = `bold ${baseFontSize}px sans-serif`
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
 
-      const title = globalConfig.mainTitle || ""
-      const maxWidth = canvas.width - CANVAS_CONFIG.padding * 2
+      const title = config.mainTitle || ""
+      const maxWidth = width - padding * 2
       const metrics = ctx.measureText(title)
       let fontSize = baseFontSize
       if (metrics.width > maxWidth && metrics.width > 0) {
         const scale = maxWidth / metrics.width
-        fontSize = Math.max(12, Math.floor(baseFontSize * scale))
+        fontSize = Math.max(12 * scaleFactor, Math.floor(baseFontSize * scale))
         ctx.font = `bold ${fontSize}px sans-serif`
       }
 
-      const titleY = CANVAS_CONFIG.padding + CANVAS_CONFIG.titleHeight / 2
-      ctx.fillText(title, canvas.width / 2, titleY)
+      const titleY = padding + titleHeight / 2
+      ctx.fillText(title, width / 2, titleY)
 
       // 计算网格区域
-      const gridTop = CANVAS_CONFIG.padding + CANVAS_CONFIG.titleHeight + (CANVAS_CONFIG.titleBottomMargin || 0)
-      const gridWidth = canvas.width - CANVAS_CONFIG.padding * 2
-      const gridHeight = canvas.height - gridTop - CANVAS_CONFIG.padding
+      const gridTop = padding + titleHeight + titleBottomMargin
+      const gridWidth = width - padding * 2
+      const gridHeight = height - gridTop - padding
 
       // 计算单元格尺寸
       const cellWidth = gridWidth / CANVAS_CONFIG.gridCols
       const cellHeight = gridHeight / CANVAS_CONFIG.gridRows
 
       // 绘制单元格
-      cells.forEach((cell, index) => {
+      targetCells.forEach((cell, index) => {
         const row = Math.floor(index / CANVAS_CONFIG.gridCols)
         const col = index % CANVAS_CONFIG.gridCols
 
-        const x = CANVAS_CONFIG.padding + col * cellWidth
+        const x = padding + col * cellWidth
         const y = gridTop + row * cellHeight
 
         // 绘制单元格边框
         ctx.strokeStyle = "black"
-        ctx.lineWidth = CANVAS_CONFIG.cellBorderWidth
+        ctx.lineWidth = cellBorderWidth
 
         // 如果是拖拽目标，绘制高亮边框
         if (dragOverCellId === cell.id) {
           ctx.strokeStyle = "#3b82f6" // 蓝色高亮
-          ctx.lineWidth = CANVAS_CONFIG.cellBorderWidth * 2
+          ctx.lineWidth = cellBorderWidth * 2
         }
 
         // 检查是否支持 roundRect API
         if (typeof ctx.roundRect === 'function') {
           ctx.beginPath();
           ctx.roundRect(
-            x + CANVAS_CONFIG.cellPadding / 2,
-            y + CANVAS_CONFIG.cellPadding / 2,
-            cellWidth - CANVAS_CONFIG.cellPadding,
-            cellHeight - CANVAS_CONFIG.cellPadding,
-            CANVAS_CONFIG.cellBorderRadius
+            x + cellPadding / 2,
+            y + cellPadding / 2,
+            cellWidth - cellPadding,
+            cellHeight - cellPadding,
+            cellBorderRadius
           );
           ctx.stroke();
         } else {
           // 对于不支持 roundRect 的浏览器，使用普通矩形
           ctx.strokeRect(
-            x + CANVAS_CONFIG.cellPadding / 2,
-            y + CANVAS_CONFIG.cellPadding / 2,
-            cellWidth - CANVAS_CONFIG.cellPadding,
-            cellHeight - CANVAS_CONFIG.cellPadding
+            x + cellPadding / 2,
+            y + cellPadding / 2,
+            cellWidth - cellPadding,
+            cellHeight - cellPadding
           );
         }
 
         // 计算封面区域
-        const coverWidth = cellWidth - CANVAS_CONFIG.cellPadding * 2 - CANVAS_CONFIG.cellBorderWidth * 2
+        const coverWidth = cellWidth - cellPadding * 2 - cellBorderWidth * 2
         const coverHeight = coverWidth / CANVAS_CONFIG.coverRatio
-        const coverX = x + CANVAS_CONFIG.cellPadding + CANVAS_CONFIG.cellBorderWidth
-        const coverY = y + CANVAS_CONFIG.cellPadding + CANVAS_CONFIG.cellBorderWidth
+        const coverX = x + cellPadding + cellBorderWidth
+        const coverY = y + cellPadding + cellBorderWidth
 
         // 绘制封面区域
         if (cell.imageObj) {
@@ -129,20 +141,21 @@ export function useCanvasRenderer({
 
         // 绘制标题文字（自适应缩放 + 垂直居中）
         ctx.fillStyle = "black"
-        const baseCellTitleFont = CANVAS_CONFIG.cellTitleFontSize
+        const baseCellTitleFont = CANVAS_CONFIG.cellTitleFontSize * scaleFactor
         ctx.font = `${baseCellTitleFont}px sans-serif`
         ctx.textAlign = "center"
         // 允许的最大宽度（左右各留出 padding）
-        const cellTitleMaxWidth = cellWidth - CANVAS_CONFIG.cellPadding * 2
+        const cellTitleMaxWidth = cellWidth - cellPadding * 2
         const cellTitleMetrics = ctx.measureText(cell.title)
         let cellTitleFontSize = baseCellTitleFont
         if (cellTitleMetrics.width > cellTitleMaxWidth && cellTitleMetrics.width > 0) {
           const scale = cellTitleMaxWidth / cellTitleMetrics.width
-          cellTitleFontSize = Math.max(10, Math.floor(baseCellTitleFont * scale))
+          cellTitleFontSize = Math.max(10 * scaleFactor, Math.floor(baseCellTitleFont * scale))
           ctx.font = `${cellTitleFontSize}px sans-serif`
         }
         // 以固定高度区域居中，确保不同字号的标题基线一致
-        const titleTop = coverY + CANVAS_CONFIG.cellTitleMargin + coverHeight
+        const cellTitleMargin = CANVAS_CONFIG.cellTitleMargin * scaleFactor
+        const titleTop = coverY + cellTitleMargin + coverHeight
         // 使用固定槽位高度（基础字号），保证过长缩小时也垂直居中
         const titleAreaHeight = baseCellTitleFont
         const titleCenterY = titleTop + titleAreaHeight / 2
@@ -151,7 +164,7 @@ export function useCanvasRenderer({
         ctx.fillText(
           cell.title,
           x + cellWidth / 2,
-          titleCenterY + 3,
+          titleCenterY + 3 * scaleFactor,
         )
         ctx.textBaseline = prevBaseline
 
@@ -161,12 +174,13 @@ export function useCanvasRenderer({
           const prevBaseline2 = ctx.textBaseline
           ctx.textBaseline = "alphabetic"
           ctx.fillStyle = "#4b5563" // 灰色文字
-          ctx.font = `${CANVAS_CONFIG.cellNameFontSize}px sans-serif`
+          const cellNameFontSize = CANVAS_CONFIG.cellNameFontSize * scaleFactor
+          ctx.font = `${cellNameFontSize}px sans-serif`
 
           // 截断过长的电影名称
           let movieName = cell.name
           let textWidth = ctx.measureText(movieName).width
-          const maxWidth = cellWidth - CANVAS_CONFIG.cellPadding * 4
+          const maxWidth = cellWidth - cellPadding * 4
 
           if (textWidth > maxWidth) {
             // 截断文本并添加省略号
@@ -178,15 +192,16 @@ export function useCanvasRenderer({
             movieName = truncated + "..."
           }
 
+          const cellNameMargin = CANVAS_CONFIG.cellNameMargin * scaleFactor
           ctx.fillText(
             movieName,
             x + cellWidth / 2,
             coverY +
               coverHeight +
-              CANVAS_CONFIG.cellTitleMargin +
+              cellTitleMargin +
               baseCellTitleFont +
-              CANVAS_CONFIG.cellNameMargin +
-              CANVAS_CONFIG.cellNameFontSize,
+              cellNameMargin +
+              cellNameFontSize,
           )
           ctx.textBaseline = prevBaseline2
         }
@@ -194,16 +209,23 @@ export function useCanvasRenderer({
 
       // 添加水印
       ctx.fillStyle = "#9ca3af" // 使用灰色
-      ctx.font = "14px sans-serif"
+      ctx.font = `${14 * scaleFactor}px sans-serif`
       ctx.textAlign = "right"
       ctx.fillText(
         "moviegrid.dsdev.ink",
-        canvas.width - CANVAS_CONFIG.padding,
-        canvas.height - CANVAS_CONFIG.padding / 2
+        width - padding,
+        height - padding / 2
       )
     } catch (error) {
       console.error("绘制Canvas时发生错误:", error)
     }
+  }
+
+  // 绘制Canvas（用于显示）
+  const drawCanvas = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    drawCanvasWithScale(canvas, cells, globalConfig, 1)
   }
 
   // 计算Canvas缩放比例
@@ -358,6 +380,7 @@ export function useCanvasRenderer({
 
   return {
     scale,
-    drawCanvas
+    drawCanvas,
+    drawCanvasWithScale
   }
 }

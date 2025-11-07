@@ -91,7 +91,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
   };
 
   // 使用自定义hooks处理Canvas渲染
-  const { scale, drawCanvas } = useCanvasRenderer({ 
+  const { scale, drawCanvas, drawCanvasWithScale } = useCanvasRenderer({ 
     canvasRef, 
     cells, 
     setCells, 
@@ -116,6 +116,8 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
     openNameEditDialog,
     openMainTitleEditDialog,
     forceCanvasRedraw: drawCanvas,
+    drawCanvasWithScale,
+    globalConfig,
   });
 
   // 更新 useCanvasRenderer 以使用当前的 dragOverCellId
