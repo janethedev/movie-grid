@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import { I18nProvider } from '@/lib/i18n/provider';
 import { getMessages } from '@/lib/i18n/getMessages';
@@ -78,6 +79,7 @@ export default async function RootLayout({
       <head>
         <meta name="color-scheme" content="light only" />
         <GoogleAnalytics />
+        <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
       </head>
       <body className={inter.className} style={{ colorScheme: 'light only' }}>
         <LocaleRedirect />

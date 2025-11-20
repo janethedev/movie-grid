@@ -67,6 +67,7 @@ const zhCN = {
     powered_by: 'Powered by TMDB',
     friendship_link: '友情链接：',
     friendship_link_site: '游戏生涯个人喜好表',
+    feedback_button: '网站使用体验反馈',
   },
   seo: {
     intro:

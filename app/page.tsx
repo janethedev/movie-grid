@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useI18n } from '@/lib/i18n/provider';
 import { MovieGrid } from './components/MovieGrid';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { FeedbackSidebarTrigger } from './components/FeedbackSidebarTrigger';
 import { MovieCell } from './types';
 import { loadCellsFromDB } from './utils/indexedDB';
 
@@ -64,6 +65,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center py-8 relative">
+      <FeedbackSidebarTrigger />
       <LanguageSwitcher />
 
       {/* SEO 优化：语义化标题 */}
@@ -91,11 +93,18 @@ export default function Home() {
             />
           </a>
         </p>
+        
         <p className="flex items-center justify-center mb-1">
           {t('footer.friendship_link')}<a className="text-blue-500 mr-1" href="https://gamegrid.shatranj.space/">{t('footer.friendship_link_site')}</a>
         </p>
         <p className="flex items-center justify-center mb-1">
-        Powered by <a className="text-blue-500 ml-1" href="https://www.themoviedb.org/">TMDB</a>
+          Powered by
+          <a
+            className="ml-1 text-gray-500 hover:underline focus-visible:underline"
+            href="https://www.themoviedb.org/"
+          >
+            TMDB
+          </a>
         </p>
         <p className="flex items-center justify-center mt-1">
           <a
