@@ -1,10 +1,20 @@
 // app/api/movie-search/route.ts
 import { NextResponse } from "next/server";
 import { ProxyAgent, fetch as undiciFetch } from 'undici';
+import { TTLCache } from "@/lib/server-cache";
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+type CachedMovie = {
+  id: number;
+  name: string;
+  image: string | null;
+};
+
+const movieSearchCache = new TTLCache<CachedMovie[]>(CACHE_TTL_MS);
 
 // 检测文本语言（简单实现：检测是否包含中文字符）
 function detectLanguage(text: string): string {
@@ -15,7 +25,7 @@ function detectLanguage(text: string): string {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q");
+  const query = searchParams.get("q")?.trim();
 
   if (!query) {
     return NextResponse.json({ error: "搜索词不能为空" }, { status: 400 });
@@ -37,6 +47,39 @@ export async function GET(request: Request) {
 
         // 根据搜索词自动检测语言
         const language = detectLanguage(query);
+        const cacheKey = `${language}:${query.toLowerCase()}`;
+
+        const emitMovies = (movies: CachedMovie[]) => {
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: "init",
+            total: movies.length
+          }) + "\n"));
+
+          for (const movie of movies) {
+            controller.enqueue(encoder.encode(JSON.stringify({
+              type: "movieStart",
+              movie: { ...movie, image: null }
+            }) + "\n"));
+
+            controller.enqueue(encoder.encode(JSON.stringify({
+              type: "movieComplete",
+              movie
+            }) + "\n"));
+          }
+
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: "end",
+            message: "所有电影数据已发送完成",
+            successCount: movies.length
+          }) + "\n"));
+        };
+
+        const cachedMovies = movieSearchCache.get(cacheKey);
+        if (cachedMovies) {
+          emitMovies(cachedMovies);
+          return;
+        }
+
         const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=${language}&page=1`;
 
         // 配置请求选项
@@ -62,7 +105,17 @@ export async function GET(request: Request) {
         }
 
         const data = await response.json() as any;
-        const movies = (data.results || []).slice(0, 10);
+        const movies = (data.results || []).slice(0, 10).map((item: any) => {
+          const imageUrl = item.poster_path 
+            ? `${TMDB_IMAGE_BASE}${item.poster_path}` 
+            : null;
+
+          return {
+            id: item.id,
+            name: item.title || item.original_title,
+            image: imageUrl ? `/api/proxy?url=${encodeURIComponent(imageUrl)}` : null,
+          } satisfies CachedMovie;
+        });
 
         if (movies.length === 0) {
           controller.enqueue(encoder.encode(JSON.stringify({
@@ -73,39 +126,8 @@ export async function GET(request: Request) {
           return;
         }
 
-        controller.enqueue(encoder.encode(JSON.stringify({
-          type: "init",
-          total: movies.length
-        }) + "\n"));
-
-        for (const item of movies) {
-          const imageUrl = item.poster_path 
-            ? `${TMDB_IMAGE_BASE}${item.poster_path}` 
-            : null;
-          
-          const movie = {
-            id: item.id,
-            name: item.title || item.original_title,
-            // 图片通过服务端代理访问，解决浏览器无法访问 TMDB CDN 的问题
-            image: imageUrl ? `/api/proxy?url=${encodeURIComponent(imageUrl)}` : null,
-          };
-
-          controller.enqueue(encoder.encode(JSON.stringify({
-            type: "movieStart",
-            movie: { ...movie, image: null }
-          }) + "\n"));
-
-          controller.enqueue(encoder.encode(JSON.stringify({
-            type: "movieComplete",
-            movie
-          }) + "\n"));
-        }
-
-        controller.enqueue(encoder.encode(JSON.stringify({
-          type: "end",
-          message: "所有电影数据已发送完成",
-          successCount: movies.length
-        }) + "\n"));
+        emitMovies(movies);
+        movieSearchCache.set(cacheKey, movies);
 
       } catch (error) {
         console.error("TMDB 搜索失败", error);
@@ -122,7 +144,8 @@ export async function GET(request: Request) {
   return new Response(stream, {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "no-store",
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=30",
+      "CDN-Cache-Control": "public, s-maxage=300, stale-while-revalidate=30",
       "X-Content-Type-Options": "nosniff",
     },
   });
