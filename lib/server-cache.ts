@@ -5,13 +5,15 @@ type CacheEntry<T> = {
 
 export class TTLCache<T> {
   private ttl: number;
+  private maxSize: number;
   private store = new Map<string, CacheEntry<T>>();
 
-  constructor(ttlMs: number) {
+  constructor(ttlMs: number, maxSize: number = 1000) {
     if (ttlMs <= 0) {
       throw new Error("TTL must be greater than 0");
     }
     this.ttl = ttlMs;
+    this.maxSize = maxSize;
   }
 
   get(key: string): T | null {
@@ -27,6 +29,12 @@ export class TTLCache<T> {
   }
 
   set(key: string, value: T) {
+    // 如果达到最大限制，删除最早插入的元素 (Map 按插入顺序迭代)
+    if (this.store.size >= this.maxSize) {
+      const firstKey = this.store.keys().next().value;
+      if (firstKey) this.store.delete(firstKey);
+    }
+
     this.store.set(key, {
       value,
       expiresAt: Date.now() + this.ttl,

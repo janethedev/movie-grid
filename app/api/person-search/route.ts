@@ -6,7 +6,7 @@ import { TTLCache } from "@/lib/server-cache";
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
-const CACHE_TTL_MS = 5 * 60 * 1000;
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 type CachedPerson = {
   id: number;
@@ -14,7 +14,7 @@ type CachedPerson = {
   image: string | null;
 };
 
-const personSearchCache = new TTLCache<CachedPerson[]>(CACHE_TTL_MS);
+const personSearchCache = new TTLCache<CachedPerson[]>(CACHE_TTL_MS, 500);
 
 // 检测文本语言（简单实现：检测是否包含中文字符）
 function detectLanguage(text: string): string {
@@ -144,8 +144,8 @@ export async function GET(request: Request) {
   return new Response(stream, {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=30",
-      "CDN-Cache-Control": "public, s-maxage=300, stale-while-revalidate=30",
+      "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
+      "CDN-Cache-Control": "public, s-maxage=86400, stale-while-revalidate=86400",
       "X-Content-Type-Options": "nosniff",
     },
   });
