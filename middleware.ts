@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/assets') ||
+    pathname.startsWith('/tmdb-image') || // Explicitly ignore TMDB image rewrite path
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
     pathname.match(/\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map)$/)
@@ -61,7 +62,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match all paths except those starting with a locale, Next internals, or file extensions
-    '/((?!_next/|api/|assets/|.*\..*).*)',
+    // Match all paths except those starting with a locale, Next internals, file extensions, or tmdb-image
+    '/((?!_next/|api/|assets/|tmdb-image/|.*\..*).*)',
   ],
 };
