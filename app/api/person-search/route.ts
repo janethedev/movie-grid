@@ -106,14 +106,15 @@ export async function GET(request: Request) {
 
         const data = await response.json() as any;
         const persons = (data.results || []).slice(0, 10).map((item: any) => {
-          const imageUrl = item.profile_path 
-            ? `${TMDB_IMAGE_BASE}${item.profile_path}` 
+          // 使用 Rewrite 路径代替 API Proxy，节省 Fast Origin Transfer
+          const imagePath = item.profile_path 
+            ? `/tmdb-image${item.profile_path}` 
             : null;
 
           return {
             id: item.id,
             name: item.name,
-            image: imageUrl ? `/api/proxy?url=${encodeURIComponent(imageUrl)}` : null,
+            image: imagePath,
           } satisfies CachedPerson;
         });
 

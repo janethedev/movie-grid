@@ -106,14 +106,15 @@ export async function GET(request: Request) {
 
         const data = await response.json() as any;
         const movies = (data.results || []).slice(0, 10).map((item: any) => {
-          const imageUrl = item.poster_path 
-            ? `${TMDB_IMAGE_BASE}${item.poster_path}` 
+          // 使用 Rewrite 路径代替 API Proxy，节省 Fast Origin Transfer
+          const imagePath = item.poster_path 
+            ? `/tmdb-image${item.poster_path}` 
             : null;
 
           return {
             id: item.id,
             name: item.title || item.original_title,
-            image: imageUrl ? `/api/proxy?url=${encodeURIComponent(imageUrl)}` : null,
+            image: imagePath,
           } satisfies CachedMovie;
         });
 

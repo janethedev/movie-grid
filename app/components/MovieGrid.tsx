@@ -208,17 +208,16 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
   const handleSelectMovie = async (movie: MovieSearchResult) => {
     if (selectedCellId === null) return;
     
-    // 如果图片URL不是以 /api/proxy 开头，才使用代理包裹
-    const proxyImageUrl = movie.image.startsWith('/api/proxy') 
-    ? movie.image 
-    : `/api/proxy?url=${encodeURIComponent(movie.image)}`;
+    // API 已经返回了处理好的路径（如 /tmdb-image/...），直接使用
+    const imageUrl = movie.image;
+    if (!imageUrl) return;
 
     try {
       // 先更新UI显示，让用户知道正在处理
       const tempUpdatedCell: MovieCell = {
         ...cells[selectedCellId],
         name: movie.name,
-        image: proxyImageUrl, // 临时使用代理URL
+        image: imageUrl,
         imageObj: null,
       };
       
@@ -228,7 +227,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
       setIsSearchDialogOpen(false);
       
       // 获取图片并转换为base64
-      const response = await fetch(proxyImageUrl);
+      const response = await fetch(imageUrl);
       const blob = await response.blob();
       
       // 创建图片对象进行裁切
@@ -291,7 +290,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
       // 如果转换失败，使用原始代理URL作为fallback
       const fallbackCell: MovieCell = {
         ...cells[selectedCellId],
-        image: proxyImageUrl,
+        image: imageUrl,
         name: movie.name,
         imageObj: null,
       };
