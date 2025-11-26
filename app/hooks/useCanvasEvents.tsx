@@ -15,6 +15,7 @@ interface UseCanvasEventsProps {
   openTitleEditDialog: (cellId: number) => void
   openNameEditDialog: (cellId: number) => void
   openMainTitleEditDialog: () => void
+  onImageDrop?: (cellId: number, file: File) => void // 添加拖拽图片的回调
   forceCanvasRedraw?: () => void // 添加强制Canvas重绘的函数
   drawCanvasWithScale?: (canvas: HTMLCanvasElement, cells: MovieCell[], config: GlobalConfig, scaleFactor: number) => void
   globalConfig: GlobalConfig
@@ -28,6 +29,7 @@ export function useCanvasEvents({
   openTitleEditDialog,
   openNameEditDialog,
   openMainTitleEditDialog,
+  onImageDrop,
   forceCanvasRedraw,
   drawCanvasWithScale,
   globalConfig,
@@ -142,6 +144,13 @@ export function useCanvasEvents({
         return
       }
 
+      // 如果提供了 onImageDrop 回调，使用它来处理（会打开裁剪对话框）
+      if (onImageDrop) {
+        onImageDrop(cellId, file);
+        return;
+      }
+
+      // 否则使用默认的自动裁剪处理（向后兼容）
       // 限制图片大小为3MB
       const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
       if (file.size > MAX_FILE_SIZE) {

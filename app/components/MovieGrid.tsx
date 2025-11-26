@@ -93,6 +93,55 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
     setIsMainTitleDialogOpen(true);
   };
 
+  // 处理拖拽图片 - 打开裁剪对话框
+  const handleImageDrop = async (cellId: number, file: File) => {
+    // 设置选中的单元格ID
+    setSelectedCellId(cellId);
+
+    // 限制图片大小为3MB
+    const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+    if (file.size > MAX_FILE_SIZE) {
+      alert(t('error.file_too_large', { size: '3MB' }) || '图片文件过大,请上传小于3MB的图片');
+      return;
+    }
+
+    try {
+      // 读取文件为 Data URL
+      const imageSrc = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
+          if (result) {
+            resolve(result);
+          } else {
+            reject(new Error('Failed to read image'));
+          }
+        };
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+      });
+
+      // 预加载图片以验证数据有效性
+      await new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error('Invalid image format'));
+        img.src = imageSrc;
+      });
+
+      // 确保图片完全加载后再设置状态
+      setUploadedImageSrc(imageSrc);
+      
+      // 使用 setTimeout 确保状态更新后再打开对话框
+      setTimeout(() => {
+        setIsCropDialogOpen(true);
+      }, 100);
+    } catch (error) {
+      console.error('读取拖拽图片失败:', error);
+      alert(t('error.image_load_failed_select_another'));
+    }
+  };
+
   // 使用自定义hooks处理Canvas渲染
   const { scale, drawCanvas, drawCanvasWithScale } = useCanvasRenderer({ 
     canvasRef, 
@@ -118,6 +167,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
     openTitleEditDialog,
     openNameEditDialog,
     openMainTitleEditDialog,
+    onImageDrop: handleImageDrop,
     forceCanvasRedraw: drawCanvas,
     drawCanvasWithScale,
     globalConfig,
