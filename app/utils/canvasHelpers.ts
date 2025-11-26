@@ -47,7 +47,7 @@ export function getClickArea(
   }
 }
 
-// 裁剪图片为3:4的长宽比
+// 裁剪并压缩图片为3:4的长宽比
 export function cropImageToAspectRatio(imageUrl: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -56,7 +56,7 @@ export function cropImageToAspectRatio(imageUrl: string): Promise<string> {
       const ctx = canvas.getContext("2d");
 
       if (!ctx) {
-        reject(new Error("无法创建Canvas上下文"));
+        reject(new Error("Unable to create Canvas context"));
         return;
       }
 
@@ -81,9 +81,19 @@ export function cropImageToAspectRatio(imageUrl: string): Promise<string> {
         sourceY = (img.height - sourceHeight) / 2;
       }
 
-      // 设置Canvas大小和绘制裁剪后的图片
-      canvas.width = sourceWidth;
-      canvas.height = sourceHeight;
+      // 限制最大宽度为800px，保持宽高比
+      const MAX_WIDTH = 800;
+      let outputWidth = sourceWidth;
+      let outputHeight = sourceHeight;
+      
+      if (outputWidth > MAX_WIDTH) {
+        outputWidth = MAX_WIDTH;
+        outputHeight = outputWidth / targetRatio;
+      }
+
+      // 设置Canvas为压缩后的大小
+      canvas.width = outputWidth;
+      canvas.height = outputHeight;
       ctx.drawImage(
         img,
         sourceX,
@@ -92,14 +102,14 @@ export function cropImageToAspectRatio(imageUrl: string): Promise<string> {
         sourceHeight,
         0,
         0,
-        sourceWidth,
-        sourceHeight
+        outputWidth,
+        outputHeight
       );
 
-      // 转换为DataURL
-      resolve(canvas.toDataURL("image/png"));
+      // 转换为JPEG格式，质量0.9
+      resolve(canvas.toDataURL("image/jpeg", 0.9));
     };
-    img.onerror = () => reject(new Error("图片加载失败"));
+    img.onerror = () => reject(new Error("Image failed to load"));
     img.src = imageUrl;
   });
 }

@@ -138,6 +138,15 @@ export function useCanvasEvents({
       // 检查是否是图片文件
       if (!file.type.startsWith("image/")) {
         console.error("只能拖拽图片文件");
+        alert("只能拖拽图片文件");
+        return
+      }
+
+      // 限制图片大小为3MB
+      const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+      if (file.size > MAX_FILE_SIZE) {
+        console.error("图片文件过大");
+        alert("图片文件过大,请上传小于3MB的图片");
         return
       }
 
@@ -204,8 +213,8 @@ export function useCanvasEvents({
       // 使用高分辨率重新绘制所有内容
       drawCanvasWithScale(exportCanvas, cells, globalConfig, exportScale);
 
-      // 尝试不同的质量级别，确保文件小于5MB
-      const maxFileSize = 5 * 1024 * 1024; // 5MB
+      // 尝试不同的质量级别，确保文件小于3MB
+      const maxFileSize = 3 * 1024 * 1024; // 3MB
       let quality = 0.92; // 从较高质量开始
       let dataUrl: string;
       let fileSize: number;

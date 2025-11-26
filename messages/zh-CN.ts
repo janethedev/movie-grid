@@ -55,11 +55,13 @@ const zhCN = {
     edit_title: '编辑标题',
     edit_movie_name: '编辑电影名称',
     edit_main_title: '编辑主标题',
+    crop_image: '裁剪图片',
   },
   common: {
     cancel: '取消',
     save: '保存',
     close: '关闭',
+    confirm: '确认',
   },
   footer: {
     made_with: 'made with Copilot & Codex',
@@ -90,6 +92,26 @@ const zhCN = {
     results_count: '找到 {count} 个结果',
     clear: '清除搜索',
     upload_image: '上传图片',
+  },
+  crop: {
+    title: '裁剪图片',
+    tip: '拖动和缩放图片以调整裁剪区域',
+    zoom: '缩放',
+  },
+  error: {
+    file_too_large: '图片文件过大，请上传小于{size}的图片',
+    invalid_file_type: '只能上传图片文件',
+    image_load_failed: '图片加载失败',
+    image_load_failed_retry: '图片加载失败，请重试',
+    image_load_failed_select_another: '图片加载失败，请重试或选择其他图片',
+    loading: '加载中...',
+    processing: '处理中...',
+    canvas_context_error: '无法获取canvas上下文',
+    canvas_create_error: '无法创建Canvas上下文',
+    read_image_failed: '读取图片失败',
+    read_file_error: '读取文件错误',
+    invalid_image_format: '图片格式无效',
+    crop_image_failed: '裁剪图片失败',
   },
 };
 
