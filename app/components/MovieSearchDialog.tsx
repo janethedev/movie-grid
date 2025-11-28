@@ -5,6 +5,7 @@ import NextImage from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Film, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
 import { MovieSearchResult } from "../types"
 import { useI18n } from "@/lib/i18n/provider"
@@ -42,6 +43,8 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
   })
   // 添加状态来跟踪总结果数量
   const [totalResults, setTotalResults] = useState<number>(0)
+  // 海报语言偏好
+  const [preferEnglishPoster, setPreferEnglishPoster] = useState(false)
   
   // 用于存储搜索请求的 AbortController，以便能取消进行中的请求
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -55,6 +58,9 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
       // 仅在打开时重置状态，不重置搜索词和结果，以便用户可以继续之前的搜索
       setIsLoading(false);
       setSearchStatus({ state: searchResults.length > 0 ? 'success' : 'idle', message: searchResults.length > 0 ? '' : (isPersonSearch ? String(t('search.idle_hint_person')) : String(t('search.idle_hint'))) });
+      // 加载用户的海报偏好设置
+      const saved = localStorage.getItem('preferEnglishPoster');
+      setPreferEnglishPoster(saved === 'true');
     } else {
       // 关闭时取消正在进行的搜索请求
       if (abortControllerRef.current) {
@@ -137,7 +143,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
       // 根据格子类型选择 API 端点
       const apiEndpoint = isPersonSearch 
         ? `/api/person-search?q=${encodeURIComponent(term)}`
-        : `/api/movie-search?q=${encodeURIComponent(term)}`;
+        : `/api/movie-search?q=${encodeURIComponent(term)}&preferEnglish=${preferEnglishPoster}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -383,7 +389,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
           <DialogTitle>{isPersonSearch ? t('search.title_person') : t('search.title')}</DialogTitle>
         </DialogHeader>
         
-        <div className="mb-4">
+        <div>
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Input
@@ -419,6 +425,47 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
               )}
             </Button>
           </div>
+          {/* 只在电影搜索时显示海报语言偏好 */}
+          {!isPersonSearch && (
+            <TooltipProvider>
+              <div className="flex items-center gap-2 mt-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <label 
+                      htmlFor="poster-preference-toggle" 
+                      className="text-sm text-gray-600 cursor-pointer select-none flex items-center gap-2"
+                    >
+                      <span>{t('settings.prefer_english_poster')}</span>
+                      <button
+                        id="poster-preference-toggle"
+                        role="switch"
+                        aria-checked={preferEnglishPoster}
+                        onClick={() => {
+                          const newValue = !preferEnglishPoster;
+                          setPreferEnglishPoster(newValue);
+                          localStorage.setItem('preferEnglishPoster', String(newValue));
+                        }}
+                        className={`
+                          relative inline-flex h-5 w-9 items-center rounded-full transition-colors
+                          ${preferEnglishPoster ? 'bg-blue-600' : 'bg-gray-300'}
+                        `}
+                      >
+                        <span
+                          className={`
+                            inline-block h-3 w-3 transform rounded-full bg-white transition-transform
+                            ${preferEnglishPoster ? 'translate-x-5' : 'translate-x-1'}
+                          `}
+                        />
+                      </button>
+                    </label>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs text-xs">{t('settings.poster_preference_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
+          )}
         </div>
 
         <div className="max-h-[40vh] sm:max-h-[300px] md:max-h-[350px] lg:max-h-[400px] overflow-y-auto">

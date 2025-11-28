@@ -63,6 +63,10 @@ const zhCN = {
     close: '关闭',
     confirm: '确认',
   },
+  settings: {
+    prefer_english_poster: '优先显示英文海报',
+    poster_preference_tooltip: '开启后若还是对海报质量不满意，建议用英文重新搜索。',
+  },
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: '如果觉得对你有用请点Star →',

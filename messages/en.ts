@@ -62,6 +62,10 @@ const en = {
     close: 'Close',
     confirm: 'Confirm',
   },
+  settings: {
+    prefer_english_poster: 'Prefer English Posters',
+    poster_preference_tooltip: 'If still unsatisfied with poster, try searching in English.',
+  },
   footer: {
     made_with: 'made with Copilot & Codex',
     if_useful_star: 'If you find it useful, please star →',

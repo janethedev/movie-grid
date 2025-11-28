@@ -7,6 +7,8 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+// 是否启用英文海报优先（默认关闭，节省API调用）
+const ENABLE_ENGLISH_POSTER = process.env.ENABLE_ENGLISH_POSTER === 'true';
 
 type CachedMovie = {
   id: number;
@@ -26,6 +28,7 @@ function detectLanguage(text: string): string {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q")?.trim();
+  const preferEnglish = searchParams.get("preferEnglish") === 'true';
 
   if (!query) {
     return NextResponse.json({ error: "搜索词不能为空" }, { status: 400 });
@@ -47,7 +50,8 @@ export async function GET(request: Request) {
 
         // 根据搜索词自动检测语言
         const language = detectLanguage(query);
-        const cacheKey = `${language}:${query.toLowerCase()}`;
+        // 缓存键包含语言、关键词和用户偏好
+        const cacheKey = `${language}:${query.toLowerCase()}:${preferEnglish || ENABLE_ENGLISH_POSTER}`;
 
         const emitMovies = (movies: CachedMovie[]) => {
           controller.enqueue(encoder.encode(JSON.stringify({
@@ -80,8 +84,6 @@ export async function GET(request: Request) {
           return;
         }
 
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=${language}&page=1`;
-
         // 配置请求选项
         const fetchOptions: any = {
           headers: {
@@ -97,26 +99,62 @@ export async function GET(request: Request) {
           console.log('未配置代理，使用 undici 直接访问');
         }
 
-        // 统一使用 undiciFetch
-        const response = await undiciFetch(url, fetchOptions);
+        // 如果是中文搜索且用户选择了英文海报，同时发起英文搜索
+        let movies: CachedMovie[] = [];
+        
+        if (language === 'zh-CN' && (preferEnglish || ENABLE_ENGLISH_POSTER)) {
+          const zhUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=zh-CN&page=1`;
+          const enUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=en-US&page=1`;
 
-        if (!response.ok) {
-          throw new Error(`TMDB 接口返回 ${response.status}`);
+          const [zhResponse, enResponse] = await Promise.all([
+            undiciFetch(zhUrl, fetchOptions),
+            undiciFetch(enUrl, fetchOptions)
+          ]);
+
+          if (!zhResponse.ok) throw new Error(`TMDB 接口返回 ${zhResponse.status}`);
+          
+          const zhData = await zhResponse.json() as any;
+          const enData = enResponse.ok ? await enResponse.json() as any : { results: [] };
+
+          // 创建英文结果的映射表 (ID -> PosterPath)
+          const enPosterMap = new Map<number, string>();
+          (enData.results || []).forEach((item: any) => {
+            if (item.poster_path) {
+              enPosterMap.set(item.id, item.poster_path);
+            }
+          });
+
+          // 合并结果：使用中文名，但优先使用英文海报
+          movies = (zhData.results || []).slice(0, 10).map((item: any) => {
+            // 优先查找英文海报，如果没有则使用中文结果里的海报
+            const posterPath = enPosterMap.get(item.id) || item.poster_path;
+            const imagePath = posterPath ? `/tmdb-image${posterPath}` : null;
+
+            return {
+              id: item.id,
+              name: item.title || item.original_title,
+              image: imagePath,
+            } satisfies CachedMovie;
+          });
+
+        } else {
+          // 非中文搜索，直接请求一次
+          const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=${language}&page=1`;
+          // fetchOptions 在上面已经定义，可以直接使用
+          const response = await undiciFetch(url, fetchOptions);
+          
+          if (!response.ok) throw new Error(`TMDB 接口返回 ${response.status}`);
+          
+          const data = await response.json() as any;
+          movies = (data.results || []).slice(0, 10).map((item: any) => {
+            const imagePath = item.poster_path ? `/tmdb-image${item.poster_path}` : null;
+            return {
+              id: item.id,
+              name: item.title || item.original_title,
+              image: imagePath,
+            } satisfies CachedMovie;
+          });
         }
-
-        const data = await response.json() as any;
-        const movies = (data.results || []).slice(0, 10).map((item: any) => {
-          // 使用 Rewrite 路径代替 API Proxy，节省 Fast Origin Transfer
-          const imagePath = item.poster_path 
-            ? `/tmdb-image${item.poster_path}` 
-            : null;
-
-          return {
-            id: item.id,
-            name: item.title || item.original_title,
-            image: imagePath,
-          } satisfies CachedMovie;
-        });
 
         if (movies.length === 0) {
           controller.enqueue(encoder.encode(JSON.stringify({
