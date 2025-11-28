@@ -93,7 +93,7 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
   };
 
   // 搜索电影 - 使用流式响应
-  const searchMovies = async (retry: boolean = false) => {
+  const searchMovies = async (retry: boolean = false, overridePreference?: boolean) => {
     // 获取搜索词，如果是重试则使用最后一次的搜索词
     const term = retry ? lastSearchTermRef.current : searchTerm.trim();
     
@@ -140,9 +140,11 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
 
     try {
       // 根据格子类型选择 API 端点
+      // 使用 overridePreference（如果提供）或当前状态值
+      const useEnglishPoster = overridePreference !== undefined ? overridePreference : preferEnglishPoster;
       const apiEndpoint = isPersonSearch 
         ? `/api/person-search?q=${encodeURIComponent(term)}`
-        : `/api/movie-search?q=${encodeURIComponent(term)}&preferEnglish=${preferEnglishPoster}`;
+        : `/api/movie-search?q=${encodeURIComponent(term)}&preferEnglish=${useEnglishPoster}`;
       
       // 使用当前 AbortController 的信号
       const response = await fetch(apiEndpoint, {
@@ -440,6 +442,10 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
                     const newValue = !preferEnglishPoster;
                     setPreferEnglishPoster(newValue);
                     localStorage.setItem('preferEnglishPoster', String(newValue));
+                    // 如果已有搜索结果，自动重新搜索，直接传入新值
+                    if (searchResults.length > 0 && lastSearchTermRef.current) {
+                      searchMovies(true, newValue); // 使用重试模式，并传入新的偏好值
+                    }
                   }}
                   className={`
                     relative inline-flex h-5 w-9 items-center rounded-full transition-colors
