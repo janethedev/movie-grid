@@ -5,7 +5,6 @@ import NextImage from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Film, Loader2, AlertCircle, Search, RefreshCw, Upload } from "lucide-react"
 import { MovieSearchResult } from "../types"
 import { useI18n } from "@/lib/i18n/provider"
@@ -427,44 +426,35 @@ export function MovieSearchDialog({ isOpen, onOpenChange, onSelectMovie, onUploa
           </div>
           {/* 只在电影搜索时显示海报语言偏好 */}
           {!isPersonSearch && (
-            <TooltipProvider>
-              <div className="flex items-center gap-2 mt-2">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <label 
-                      htmlFor="poster-preference-toggle" 
-                      className="text-sm text-gray-600 cursor-pointer select-none flex items-center gap-2"
-                    >
-                      <span>{t('settings.prefer_english_poster')}</span>
-                      <button
-                        id="poster-preference-toggle"
-                        role="switch"
-                        aria-checked={preferEnglishPoster}
-                        onClick={() => {
-                          const newValue = !preferEnglishPoster;
-                          setPreferEnglishPoster(newValue);
-                          localStorage.setItem('preferEnglishPoster', String(newValue));
-                        }}
-                        className={`
-                          relative inline-flex h-5 w-9 items-center rounded-full transition-colors
-                          ${preferEnglishPoster ? 'bg-blue-600' : 'bg-gray-300'}
-                        `}
-                      >
-                        <span
-                          className={`
-                            inline-block h-3 w-3 transform rounded-full bg-white transition-transform
-                            ${preferEnglishPoster ? 'translate-x-5' : 'translate-x-1'}
-                          `}
-                        />
-                      </button>
-                    </label>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="max-w-xs text-xs">{t('settings.poster_preference_tooltip')}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </TooltipProvider>
+            <div className="flex items-center gap-2 mt-2">
+              <label 
+                htmlFor="poster-preference-toggle" 
+                className="text-sm text-gray-700 cursor-pointer select-none flex items-center gap-2"
+              >
+                <span>{t('settings.prefer_english_poster')}</span>
+                <button
+                  id="poster-preference-toggle"
+                  role="switch"
+                  aria-checked={preferEnglishPoster}
+                  onClick={() => {
+                    const newValue = !preferEnglishPoster;
+                    setPreferEnglishPoster(newValue);
+                    localStorage.setItem('preferEnglishPoster', String(newValue));
+                  }}
+                  className={`
+                    relative inline-flex h-5 w-9 items-center rounded-full transition-colors
+                    ${preferEnglishPoster ? 'bg-blue-600' : 'bg-gray-300'}
+                  `}
+                >
+                  <span
+                    className={`
+                      inline-block h-3 w-3 transform rounded-full bg-white transition-transform
+                      ${preferEnglishPoster ? 'translate-x-5' : 'translate-x-1'}
+                    `}
+                  />
+                </button>
+              </label>
+            </div>
           )}
         </div>
 
