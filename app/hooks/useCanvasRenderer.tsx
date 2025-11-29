@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, RefObject } from "react"
+import { useState, useEffect, useCallback, RefObject } from "react"
 import { MovieCell, GlobalConfig } from "../types"
 import { CANVAS_CONFIG, isBrowser } from "../constants"
 import { filmIconPath } from "../utils/canvas"
@@ -222,11 +222,12 @@ export function useCanvasRenderer({
   }
 
   // 绘制Canvas（用于显示）
-  const drawCanvas = () => {
+  const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     drawCanvasWithScale(canvas, cells, globalConfig, 1)
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cells, globalConfig, dragOverCellId])
 
   // 计算Canvas缩放比例
   useEffect(() => {

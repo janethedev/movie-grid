@@ -63,7 +63,7 @@ export default function Home() {
     let timeoutTriggered = false;
     const timeoutId = setTimeout(() => {
       timeoutTriggered = true;
-      console.warn('数据加载超时，直接显示界面');
+      console.warn('IndexedDB 加载超时，已强制显示页面');
       setLoading(false);
     }, 800); // 800ms超时
 
