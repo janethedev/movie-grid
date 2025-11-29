@@ -116,6 +116,9 @@ const en = {
     invalid_image_format: 'Invalid image format',
     crop_image_failed: 'Failed to crop image',
   },
+  warning: {
+    storage_unavailable: '⚠️ Data storage is unavailable (possibly private browsing mode). Your data will be lost after refresh. Please exit private mode to save your data.',
+  },
 };
 
 export default en;

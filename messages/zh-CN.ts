@@ -117,6 +117,9 @@ const zhCN = {
     invalid_image_format: '图片格式无效',
     crop_image_failed: '裁剪图片失败',
   },
+  warning: {
+    storage_unavailable: '⚠️ 当前浏览器环境不支持数据存储（可能是隐私模式），你的数据在刷新后将丢失。建议退出隐私模式以保存数据。',
+  },
 };
 
 export default zhCN;

@@ -58,7 +58,22 @@ export default function Home() {
         setLoading(false);
       }
     };
-    loadData();
+
+    // 添加超时机制，确保即使 IndexedDB 失败也能显示界面（特别是 Safari 移动端）
+    let timeoutTriggered = false;
+    const timeoutId = setTimeout(() => {
+      timeoutTriggered = true;
+      console.warn('数据加载超时，直接显示界面');
+      setLoading(false);
+    }, 800); // 800ms超时
+
+    loadData().finally(() => {
+      if (!timeoutTriggered) {
+        clearTimeout(timeoutId);
+      }
+    });
+
+    return () => clearTimeout(timeoutId);
   }, [locale]);
 
   const handleUpdateCells = (newCells: MovieCell[]) => setCells(newCells);
@@ -86,6 +101,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="ml-2 inline-flex items-center"
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://img.shields.io/github/stars/janethedev/movie-grid?style=social"
               alt="GitHub Stars"
@@ -113,6 +129,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="ml-2 inline-flex items-center"
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://hits.sh/github.com/janethedev/movie-grid.svg?label=views&color=007ec6"
               alt="Visitors Count"
@@ -126,7 +143,7 @@ export default function Home() {
       {(() => {
         const base = 'https://moviegrid.dsdev.ink';
         const url = base;
-        const webAppLd: any = {
+        const webAppLd: Record<string, unknown> = {
           '@context': 'https://schema.org',
           '@type': 'WebApplication',
           name:

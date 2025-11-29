@@ -17,12 +17,20 @@ export async function initDB() {
     try {
       const request = indexedDB.open(DB_CONFIG.name, DB_CONFIG.version);
 
+      // 添加超时机制，防止在 Safari 隐私模式下永久挂起
+      const timeoutId = setTimeout(() => {
+        console.warn("IndexedDB 初始化超时（可能是隐私模式）");
+        resolve(null);
+      }, 1000);
+
       request.onerror = (event) => {
+        clearTimeout(timeoutId);
         console.error("IndexedDB error:", event);
         resolve(null);
       };
 
       request.onsuccess = (event) => {
+        clearTimeout(timeoutId);
         const db = (event.target as IDBOpenDBRequest).result;
         resolve(db);
       };
@@ -32,6 +40,13 @@ export async function initDB() {
         if (!db.objectStoreNames.contains(DB_CONFIG.storeName)) {
           db.createObjectStore(DB_CONFIG.storeName, { keyPath: "id" });
         }
+      };
+
+      // Safari 在隐私模式下可能会阻塞而不触发任何事件
+      request.onblocked = () => {
+        clearTimeout(timeoutId);
+        console.warn("IndexedDB 被阻止");
+        resolve(null);
       };
     } catch (error) {
       console.error("初始化IndexedDB失败:", error);
@@ -54,6 +69,7 @@ export async function saveToIndexedDB(cell: MovieCell) {
     const store = transaction.objectStore(DB_CONFIG.storeName);
 
     // 只保存必要的数据，不保存imageObj
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { imageObj: _imageObj, ...cellData } = cell;
     store.put(cellData);
 
@@ -72,11 +88,10 @@ export async function saveToIndexedDB(cell: MovieCell) {
     console.error("保存数据失败:", error);
   }
 }
-
 /**
- * 从IndexedDB加载所有单元格数据
+ * 从 IndexedDB加载所有单元格数据
  */
-export async function loadCellsFromDB() {
+export async function loadCellsFromDB(): Promise<MovieCell[]> {
   try {
     const db = await initDB();
     if (!db) return [];
@@ -84,7 +99,7 @@ export async function loadCellsFromDB() {
     const transaction = db.transaction(DB_CONFIG.storeName, "readonly");
     const store = transaction.objectStore(DB_CONFIG.storeName);
 
-    return new Promise<MovieCell[]>((resolve, reject) => {
+    return new Promise<MovieCell[]>((resolve) => {
       const request = store.getAll();
 
       request.onsuccess = () => {
@@ -93,7 +108,7 @@ export async function loadCellsFromDB() {
 
       request.onerror = (event) => {
         console.error("加载数据失败:", event);
-        reject([]);
+        resolve([]);
       };
     });
   } catch (error) {
