@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { locales, normalizeLocale } from './lib/i18n/locales';
+import { locales, normalizeLocale, Locale } from './lib/i18n/locales';
 
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 
@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
 
   // Handle old locale paths (e.g., /zh-CN, /en) - redirect to root
   const pathLocale = pathname.split('/')[1];
-  if (locales.includes(pathLocale as any)) {
+  if (locales.includes(pathLocale as Locale)) {
     const url = request.nextUrl.clone();
     // Extract the locale and remove it from the path
     const restPath = pathname.replace(`/${pathLocale}`, '') || '/';
@@ -38,7 +38,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Determine locale from cookie or Accept-Language
-  let finalLocale = request.cookies.get(LOCALE_COOKIE)?.value as any;
+  let finalLocale = request.cookies.get(LOCALE_COOKIE)?.value as Locale;
   if (!finalLocale || !locales.includes(finalLocale)) {
     const accept = request.headers.get('accept-language') || '';
     const lang = accept.split(',')[0] || '';
@@ -62,7 +62,14 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match all paths except those starting with a locale, Next internals, file extensions, or tmdb-image
-    '/((?!_next/|api/|assets/|tmdb-image/|.*\..*).*)',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next (Next.js internals)
+     * - assets (static assets)
+     * - tmdb-image (image proxy rewrites)
+     * - files with extensions (e.g. favicon.ico)
+     */
+    '/((?!api|_next/|assets|tmdb-image|.*\\..*).*)',
   ],
 };
