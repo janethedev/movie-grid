@@ -246,7 +246,9 @@ export function useCanvasRenderer({
       if (!ctx) return;
       
       // 获取设备像素比，用于高DPI屏幕（Retina等）
-      const dpr = window.devicePixelRatio || 1;
+      // 限制 dpr 最大为 2，以避免在 iOS 设备上超过 canvas 内存限制
+      // 1200 * 1610 * 3 * 3 = ~17.4MP > 16.7MP (limit)
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       
       // 设置Canvas的实际像素数（考虑设备像素比）
       canvas.width = CANVAS_CONFIG.width * dpr;
