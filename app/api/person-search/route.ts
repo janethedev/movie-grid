@@ -8,6 +8,14 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
+// 使用 wsrv.nl 作为 TMDB 头像图片代理
+function buildWsrvImageUrl(profilePath: string | null | undefined): string | null {
+  if (!profilePath) return null;
+  const originalUrl = `${TMDB_IMAGE_BASE}${profilePath}`;
+  const encoded = encodeURIComponent(originalUrl);
+  return `https://wsrv.nl/?url=${encoded}&w=400&output=webp`;
+}
+
 type CachedPerson = {
   id: number;
   name: string;
@@ -106,10 +114,7 @@ export async function GET(request: Request) {
 
         const data = await response.json() as any;
         const persons = (data.results || []).slice(0, 10).map((item: any) => {
-          // 使用 Rewrite 路径代替 API Proxy，节省 Fast Origin Transfer
-          const imagePath = item.profile_path 
-            ? `/tmdb-image${item.profile_path}` 
-            : null;
+          const imagePath = buildWsrvImageUrl(item.profile_path);
 
           return {
             id: item.id,

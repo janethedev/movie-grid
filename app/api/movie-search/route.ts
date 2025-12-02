@@ -10,6 +10,15 @@ const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 // 是否启用英文海报优先（默认关闭，节省API调用）
 const ENABLE_ENGLISH_POSTER = process.env.ENABLE_ENGLISH_POSTER === 'true';
 
+// 使用 wsrv.nl 作为 TMDB 图片代理，减轻本项目域名的图片流量压力
+function buildWsrvImageUrl(posterPath: string | null | undefined): string | null {
+  if (!posterPath) return null;
+  const originalUrl = `${TMDB_IMAGE_BASE}${posterPath}`;
+  const encoded = encodeURIComponent(originalUrl);
+  // 适度压缩：宽度 400，输出 webp（大部分浏览器支持），在清晰度和体积之间折中
+  return `https://wsrv.nl/?url=${encoded}&w=400&output=webp`;
+}
+
 type CachedMovie = {
   id: number;
   name: string;
@@ -128,7 +137,7 @@ export async function GET(request: Request) {
           movies = (zhData.results || []).slice(0, 10).map((item: any) => {
             // 优先查找英文海报，如果没有则使用中文结果里的海报
             const posterPath = enPosterMap.get(item.id) || item.poster_path;
-            const imagePath = posterPath ? `/tmdb-image${posterPath}` : null;
+            const imagePath = buildWsrvImageUrl(posterPath);
 
             return {
               id: item.id,
@@ -147,7 +156,7 @@ export async function GET(request: Request) {
           
           const data = await response.json() as any;
           movies = (data.results || []).slice(0, 10).map((item: any) => {
-            const imagePath = item.poster_path ? `/tmdb-image${item.poster_path}` : null;
+            const imagePath = buildWsrvImageUrl(item.poster_path);
             return {
               id: item.id,
               name: item.title || item.original_title,

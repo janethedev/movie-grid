@@ -8,6 +8,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "image.tmdb.org",
       },
+      // wsrv 图片代理服务域名
+      {
+        protocol: "https",
+        hostname: "wsrv.nl",
+      },
     ],
   },
   eslint: {

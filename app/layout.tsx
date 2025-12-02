@@ -6,7 +6,6 @@ import { I18nProvider } from '@/lib/i18n/provider';
 import { getMessages } from '@/lib/i18n/getMessages';
 import { getLocale } from '@/lib/i18n/getLocale';
 import { locales } from '@/lib/i18n/locales';
-import ApiWarmer from '@/components/ApiWarmer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { LocaleRedirect } from './components/LocaleRedirect';
 import './globals.css';
@@ -83,7 +82,8 @@ export default async function RootLayout({
       </head>
       <body className={inter.className} style={{ colorScheme: 'light only' }}>
         <LocaleRedirect />
-        <ApiWarmer />
+        {/* ApiWarmer: 预热 TMDB 连接的客户端请求，在高流量场景下会产生额外 Edge Requests，先禁用以节省额度 */}
+        {/* <ApiWarmer /> */}
         <I18nProvider locale={locale} messages={messages}>
           {children}
         </I18nProvider>
