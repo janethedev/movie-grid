@@ -60,16 +60,23 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
+// Only run middleware on real page routes, not on assets, APIs, or image proxy paths.
+//
+// We explicitly restrict matcher to:
+// - root path `/`
+// - legacy locale-prefixed paths like `/zh-CN` and `/en` (and any subpaths under them)
+//
+// This avoids running middleware for:
+// - `/tmdb-image/*` (image rewrites)
+// - `/_next/*` (Next.js internals)
+// - `/api/*` (API routes)
+// - any other static assets or files.
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next (Next.js internals)
-     * - assets (static assets)
-     * - tmdb-image (image proxy rewrites)
-     * - files with extensions (e.g. favicon.ico)
-     */
-    '/((?!api|_next/|assets|tmdb-image|.*\\..*).*)',
+    '/',
+    '/zh-CN',
+    '/zh-CN/:path*',
+    '/en',
+    '/en/:path*',
   ],
 };
