@@ -210,10 +210,10 @@ export function useCanvasEvents({
 
     try {
       // 创建高分辨率的临时canvas
-      // 降低导出倍率从 3 到 2.5，以防止 iOS 设备崩溃
+      // 降低导出倍率从 3 到 2，以防止 iOS 设备崩溃
       // 3x: 1200 * 1610 * 9 = ~17.4MP (iOS limit ~16.7MP) -> CRASH
-      // 2.5x: 1200 * 1610 * 6.25 = ~12.1MP -> SAFE
-      const exportScale = 2.5; 
+      // 2x: 1200 * 1610 * 4 = ~7.7MP -> VERY SAFE
+      const exportScale = 2; 
       const exportCanvas = document.createElement('canvas');
       // 使用原始配置尺寸，而不是canvas的实际像素尺寸（避免dpr影响）
       const exportWidth = CANVAS_CONFIG.width * exportScale;
