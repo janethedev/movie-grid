@@ -60,6 +60,8 @@ const zhCN = {
   common: {
     cancel: '取消',
     save: '保存',
+    share: '分享',
+    download_directly: '直接下载',
     close: '关闭',
     confirm: '确认',
   },
@@ -101,6 +103,10 @@ const zhCN = {
     title: '裁剪图片',
     tip: '拖动和缩放图片以调整裁剪区域',
     zoom: '缩放',
+  },
+  preview: {
+    title: '预览图片',
+    long_press_tip: '请长按图片保存到相册，或分享给朋友',
   },
   error: {
     file_too_large: '图片文件过大，请上传小于{size}的图片',

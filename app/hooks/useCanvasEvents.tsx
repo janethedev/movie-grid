@@ -19,6 +19,7 @@ interface UseCanvasEventsProps {
   forceCanvasRedraw?: () => void // 添加强制Canvas重绘的函数
   drawCanvasWithScale?: (canvas: HTMLCanvasElement, cells: MovieCell[], config: GlobalConfig, scaleFactor: number) => void
   globalConfig: GlobalConfig
+  onImageGenerated?: (dataUrl: string) => void // 新增：生成的图片回调，用于移动端预览
 }
 
 export function useCanvasEvents({
@@ -33,6 +34,7 @@ export function useCanvasEvents({
   forceCanvasRedraw,
   drawCanvasWithScale,
   globalConfig,
+  onImageGenerated,
 }: UseCanvasEventsProps) {
   const [dragOverCellId, setDragOverCellId] = useState<number | null>(null)
 
@@ -210,10 +212,10 @@ export function useCanvasEvents({
 
     try {
       // 创建高分辨率的临时canvas
-      // 降低导出倍率从 3 到 2，以防止 iOS 设备崩溃
+      // iOS 设备对 Canvas 像素数量比较敏感，这里根据设备类型动态调整倍率
       // 3x: 1200 * 1610 * 9 = ~17.4MP (iOS limit ~16.7MP) -> CRASH
-      // 2x: 1200 * 1610 * 4 = ~7.7MP -> VERY SAFE
-      const exportScale = 2; 
+      // 2x: 1200 * 1610 * 4 = ~7.7MP -> 安全
+      const exportScale = 2
       const exportCanvas = document.createElement('canvas');
       // 使用原始配置尺寸，而不是canvas的实际像素尺寸（避免dpr影响）
       const exportWidth = CANVAS_CONFIG.width * exportScale;
@@ -239,13 +241,25 @@ export function useCanvasEvents({
         if (fileSize > maxFileSize) {
           quality -= 0.05; // 降低质量
           if (quality < 0.5) {
-            console.warn("无法在5MB内生成图片，使用最低质量");
+            console.warn("无法在3MB内生成图片，使用最低质量");
             break;
           }
         }
       } while (fileSize > maxFileSize && quality >= 0.5);
 
       console.log(`导出图片: ${exportWidth}x${exportHeight}, 质量: ${(quality * 100).toFixed(0)}%, 大小: ${(fileSize / 1024 / 1024).toFixed(2)}MB`);
+
+      // 移动端检测
+      // 包括 iOS, Android, 和各种 Pad 设备
+      const isMobile = typeof navigator !== "undefined" && /Mobile|Android|iP(ad|hone|od)/.test(navigator.userAgent);
+
+      // 如果是移动端，且提供了回调，则通过回调展示预览（这是最稳妥的方案）
+      // 这可以绕过各种内置浏览器对 download 属性的屏蔽
+      if (isMobile && onImageGenerated) {
+        onImageGenerated(dataUrl);
+        console.log("检测到移动端，已触发预览弹窗");
+        return;
+      }
 
       // 获取主标题作为文件名
       let fileName = "电影生涯个人喜好表.jpg";
@@ -266,6 +280,10 @@ export function useCanvasEvents({
       console.log("高分辨率图片已生成并下载");
     } catch (error) {
       console.error("生成图片失败:", error)
+      // 针对移动端用户提供可见反馈，避免「无反应」的体验
+      if (typeof window !== "undefined" && /iP(ad|hone|od)|Android/i.test(navigator.userAgent)) {
+        alert("生成图片失败，建议尝试使用桌面浏览器再次导出，或稍后重试。")
+      }
     }
   }
 

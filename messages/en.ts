@@ -59,6 +59,8 @@ const en = {
   common: {
     cancel: 'Cancel',
     save: 'Save',
+    share: 'Share',
+    download_directly: 'Download Directly',
     close: 'Close',
     confirm: 'Confirm',
   },
@@ -100,6 +102,10 @@ const en = {
     title: 'Crop Image',
     tip: 'Drag and zoom to adjust crop area',
     zoom: 'Zoom',
+  },
+  preview: {
+    title: 'Preview Image',
+    long_press_tip: 'Long press image to save or share',
   },
   error: {
     file_too_large: 'Image file is too large, please upload images smaller than {size}',

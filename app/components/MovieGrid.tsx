@@ -8,6 +8,7 @@ import { saveToIndexedDB } from "../utils/indexedDB"
 import { MovieSearchDialog } from "./MovieSearchDialog"
 import { TextEditDialog } from "./TextEditDialog"
 import { ImageCropDialog } from "./ImageCropDialog"
+import { ImagePreviewDialog } from "./ImagePreviewDialog"
 import { useCanvasRenderer } from "../hooks/useCanvasRenderer"
 import { useCanvasEvents } from "../hooks/useCanvasEvents"
 import { useIsMobile } from "../hooks/useIsMobile"
@@ -57,6 +58,8 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
   const [isNameDialogOpen, setIsNameDialogOpen] = useState(false)
   const [isMainTitleDialogOpen, setIsMainTitleDialogOpen] = useState(false)
   const [isCropDialogOpen, setIsCropDialogOpen] = useState(false)
+  const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false)
+  const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null)
   const [selectedCellId, setSelectedCellId] = useState<number | null>(null)
   const [editingText, setEditingText] = useState("")
   const [uploadedImageSrc, setUploadedImageSrc] = useState<string | null>(null)
@@ -171,6 +174,10 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
     forceCanvasRedraw: drawCanvas,
     drawCanvasWithScale,
     globalConfig,
+    onImageGenerated: (dataUrl) => {
+      setPreviewImageSrc(dataUrl);
+      setIsPreviewDialogOpen(true);
+    },
   });
 
   // 更新 useCanvasRenderer 以使用当前的 dragOverCellId
@@ -510,6 +517,13 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
         onOpenChange={setIsCropDialogOpen}
         imageSrc={uploadedImageSrc}
         onConfirm={handleCropConfirm}
+      />
+
+      {/* 图片预览对话框（移动端专用） */}
+      <ImagePreviewDialog
+        isOpen={isPreviewDialogOpen}
+        onOpenChange={setIsPreviewDialogOpen}
+        imageSrc={previewImageSrc}
       />
     </>
   )
