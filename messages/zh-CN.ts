@@ -64,6 +64,7 @@ const zhCN = {
     download_directly: '直接下载',
     close: '关闭',
     confirm: '确认',
+    tip: '提示',
   },
   settings: {
     prefer_english_poster: '优先显示英文海报',
@@ -106,7 +107,7 @@ const zhCN = {
   },
   preview: {
     title: '预览图片',
-    long_press_tip: '请长按图片保存到相册，或分享给朋友',
+    long_press_tip: '如保存按钮无效，请长按图片保存',
   },
   error: {
     file_too_large: '图片文件过大，请上传小于{size}的图片',
@@ -125,6 +126,7 @@ const zhCN = {
   },
   warning: {
     storage_unavailable: '⚠️ 当前浏览器环境不支持数据存储（可能是隐私模式），你的数据在刷新后将丢失。建议退出隐私模式以保存数据。',
+    in_app_browser: '检测到当前为App内置浏览器，可能会导致保存失败。建议使用系统浏览器或其他浏览器打开网站。',
   },
 };
 

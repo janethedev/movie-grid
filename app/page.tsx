@@ -7,9 +7,49 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { FeedbackSidebarTrigger } from './components/FeedbackSidebarTrigger';
 import { MovieCell } from './types';
 import { loadCellsFromDB } from './utils/indexedDB';
+import { AlertTriangle, Copy, Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const { t, locale } = useI18n();
+  const [isInAppBrowser, setIsInAppBrowser] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      const ua = navigator.userAgent.toLowerCase();
+      // Common in-app browser identifiers
+      const isInApp = /micromessenger|weibo|douban|qq\/|playstation|alipay/.test(ua);
+      setIsInAppBrowser(isInApp);
+    }
+  }, []);
+
+  const handleCopyUrl = async () => {
+    console.log('Copy button clicked');
+    try {
+      await navigator.clipboard.writeText('moviegrid.dsdev.ink');
+      console.log('Copied successfully');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      // Fallback: try using document.execCommand
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = 'moviegrid.dsdev.ink';
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (fallbackErr) {
+        console.error('Fallback copy also failed:', fallbackErr);
+      }
+    }
+  };
 
   const [cells, setCells] = useState<MovieCell[]>(
     (t('cell_titles') as string[]).map((title, index) => ({
@@ -80,6 +120,35 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center py-8 relative">
+      {isInAppBrowser && (
+        <div className="w-full max-w-[1200px] px-4 mb-6 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="w-full bg-yellow-50 rounded-md p-4 border-l-4 border-yellow-400 text-sm">
+            <p className="font-bold flex items-center gap-2 text-yellow-700 mb-1">
+              <AlertTriangle className="h-4 w-4" />
+              {t('common.tip')}
+            </p>
+            <p className="text-black/90 leading-relaxed mb-3">
+              {t('warning.in_app_browser')}
+            </p>
+            <div className="flex items-center gap-2 bg-white/60 rounded px-3 py-2 border border-yellow-200">
+              <code className="flex-1 text-xs font-mono text-black/80">moviegrid.dsdev.ink</code>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                className="h-7 px-2 hover:bg-yellow-100"
+                onClick={handleCopyUrl}
+              >
+                {copied ? (
+                  <Check className="h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="h-4 w-4 text-yellow-700" />
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       <FeedbackSidebarTrigger />
       <LanguageSwitcher />
 

@@ -63,6 +63,7 @@ const en = {
     download_directly: 'Download Directly',
     close: 'Close',
     confirm: 'Confirm',
+    tip: 'Tip',
   },
   settings: {
     prefer_english_poster: 'Prefer English Posters',
@@ -105,7 +106,7 @@ const en = {
   },
   preview: {
     title: 'Preview Image',
-    long_press_tip: 'Long press image to save or share',
+    long_press_tip: 'If save button fails, long press image to save',
   },
   error: {
     file_too_large: 'Image file is too large, please upload images smaller than {size}',
@@ -124,6 +125,7 @@ const en = {
   },
   warning: {
     storage_unavailable: '⚠️ Data storage is unavailable (possibly private browsing mode). Your data will be lost after refresh. Please exit private mode to save your data.',
+    in_app_browser: 'In-app browser detected. Saving might fail. Please open in system browser or another browser.',
   },
 };
 
