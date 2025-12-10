@@ -49,6 +49,12 @@ const zhCN = {
   ui: {
     tip_edit:
       '提示：点击顶部标题、格子标题或电影名称即可编辑；也可直接拖拽图片到格子中。',
+    tip_edit_mobile:
+      '提示：请不要使用豆瓣内置浏览器填表，这样会导致图片保存失败；另外表格主标题和单个格子的标题和名字均可修改。',
+    tip_edit_mobile_highlight: '请不要使用豆瓣内置浏览器填表',
+    tip_edit_mobile_middle: '，这样会导致图片保存失败；另外表格主标题和单个格子的标题和名字',
+    tip_edit_mobile_highlight2: '均可修改',
+    tip_edit_mobile_end: '。',
     generate: '生成{title}！',
   },
   dialog: {

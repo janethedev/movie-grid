@@ -457,15 +457,13 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
       />
 
       <p className="mt-4 px-4 text-sm text-gray-500 break-words">
-        {isMobile 
-          ? (() => {
-              const text = t('ui.tip_edit');
-              // 支持中文分号和英文句号分隔
-              const parts = text.includes('；') ? text.split('；') : text.split('. ');
-              return parts[0] + (text.includes('；') ? '。' : '.');
-            })()
-          : t('ui.tip_edit')
-        }
+        {isMobile ? (
+          <>
+            提示：<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight')}</span>{t('ui.tip_edit_mobile_middle')}<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight2')}</span>{t('ui.tip_edit_mobile_end')}
+          </>
+        ) : (
+          t('ui.tip_edit')
+        )}
       </p>
 
       <Button 
