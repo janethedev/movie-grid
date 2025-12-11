@@ -459,7 +459,7 @@ export function MovieGrid({ initialCells, onUpdateCells }: MovieGridProps) {
       <p className="mt-4 px-4 text-sm text-gray-500 break-words">
         {isMobile ? (
           <>
-            提示：<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight')}</span>{t('ui.tip_edit_mobile_middle')}<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight2')}</span>{t('ui.tip_edit_mobile_end')}
+            {t('ui.tip_prefix')}<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight')}</span>{t('ui.tip_edit_mobile_middle')}<span className="font-bold underline">{t('ui.tip_edit_mobile_highlight2')}</span>{t('ui.tip_edit_mobile_end')}
           </>
         ) : (
           t('ui.tip_edit')

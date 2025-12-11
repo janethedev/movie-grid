@@ -47,12 +47,13 @@ const en = {
   ],
   ui: {
     tip_edit:
-      'Tip: Click the top title, cell title or movie name to edit. You can also drag-and-drop images directly into cells.',
+      'Tips: Click the top title, cell title or movie name to edit. You can also drag-and-drop images directly into cells.',
     tip_edit_mobile:
-      'Tip: Do not use in-app browsers to fill the form, as this may cause image saving failures. You can edit the main title, cell titles, and movie names.',
+      'Tips: Do not use in-app browsers to fill the form, as this may cause image saving failures. You can edit the main title, cell titles, and movie names.',
+    tip_prefix: 'Tips: ',
     tip_edit_mobile_highlight: 'Do not use in-app browsers to fill the form',
-    tip_edit_mobile_middle: ', as this may cause image saving failures. You ',
-    tip_edit_mobile_highlight2: 'can edit',
+    tip_edit_mobile_middle: ', as this may cause image saving failures. You can ',
+    tip_edit_mobile_highlight2: 'edit',
     tip_edit_mobile_end: ' the main title, cell titles, and movie names.',
     generate: 'Generate {title}!',
   },
